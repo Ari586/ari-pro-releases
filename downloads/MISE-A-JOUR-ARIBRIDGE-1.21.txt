@@ -1,0 +1,62 @@
+MISE À JOUR D’ARIBRIDGE 1.21 — INSTALLATION EXISTANTE
+
+Fichiers locaux vérifiés le 30 octobre 2026 :
+- AriBridge-1.21.ex5 : binaire publié, prêt à installer.
+- AriBridge.ex5 : copie strictement identique, nom habituel de l’EA.
+- AriBridge.mq5 : source identique à EA_SOURCE 1.21 du projet.
+SHA-256 des deux fichiers EX5 :
+18f9089952305ea57fefe3c0aa9510ef86b0162d4bcdaa61b21d3bfd8fc90021
+
+Ces vérifications concernent le dossier sur le Mac. Elles ne prouvent pas
+que la nouvelle version est déjà installée ou active sur le VPS.
+
+1. Ouvrir la connexion VPS existante dans Windows App.
+   Si une authentification est demandée, le propriétaire la réalise lui-même.
+   Copier les fichiers via le dossier partagé ou le transfert de fichiers
+   disponible dans cette connexion.
+
+2. Dans le terminal MT5 concerné, identifier le graphique qui héberge déjà
+   AriBridge. Noter ses paramètres, notamment InpMagic et InpDeviationPoints.
+   Vérifier l’état du robot ARI et les opérations en cours avant le remplacement.
+   Conserver les graphiques et paramètres de WikiFXDefense et ExpertMAPSAR.
+
+3. MT5 : Fichier > Ouvrir le dossier des données > MQL5 > Experts.
+   Sauvegarder les anciens fichiers AriBridge dans un dossier de sauvegarde
+   daté. Garder aussi une copie des paramètres de l’EA et d’ari_protect.txt,
+   si ce fichier existe dans le dossier commun MetaTrader.
+   Copier AriBridge.ex5 de ce dossier à l’emplacement de l’ancien binaire.
+   Le fichier EX5 est déjà compilé : MetaEditor n’est pas nécessaire.
+
+4. Retirer l’ancienne instance d’AriBridge de son graphique, actualiser le
+   Navigateur puis attacher la nouvelle version sur CE MÊME graphique.
+   Rétablir les paramètres relevés. Une seule instance AriBridge doit tourner
+   pour ce relais : les instances utilisent les mêmes fichiers de commandes,
+   de compte et de protection. Ne pas laisser l’ancien et le nouveau actifs
+   sur deux graphiques ou terminaux utilisant le même dossier commun.
+
+5. Vérifier l’autorisation de trading algorithmique de l’EA et l’état du
+   bouton Algo Trading. Ce bouton est global au terminal : son activation
+   concerne aussi les autres EA autorisés. Conserver les réglages voulus par
+   le propriétaire ; ne pas modifier les paramètres des autres robots.
+
+6. Dans ARI Pro : Trading > Robot et courtier > Tester la connexion.
+   Contrôler la version 1.21 effectivement annoncée, le compte et le serveur
+   attendus, ainsi que la fraîcheur des données. Vérifier le journal Experts
+   de MT5. Le simple fait de voir le fichier dans Experts ne valide pas
+   l’exécution de la nouvelle version.
+
+7. Ordres différés : compte MT5 en mode HEDGING requis par cette version.
+   Protection : Break-Even et stop suiveur ne deviennent pas actifs par la
+   seule installation. Ils dépendent des réglages « Protéger mes positions »
+   et nécessitent MT5, AriBridge et Algo Trading actifs. Les réglages existants
+   peuvent être relus au démarrage depuis ari_protect.txt.
+   Valider le parcours limite/stop, annulation et protection en démo avant
+   utilisation réelle. Ne pas envoyer d’ordre réel pour tester l’installation.
+
+Le relais AriRelay existant peut transmettre les nouvelles commandes.
+Cette mise à jour d’EA ne nécessite pas de changer le code d’accès AriRelay,
+de réinstaller son démarrage automatique ni de modifier les ports du VPS.
+
+Retour arrière : retirer la nouvelle instance, restaurer les fichiers et
+paramètres sauvegardés, puis réattacher l’ancienne version sur son graphique.
+Ne jamais laisser deux versions actives simultanément.

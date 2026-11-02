@@ -1,0 +1,210 @@
+//@version=6
+indicator("PWO SMC & CRT Strategy [v6 Pro]", shorttitle="PWO SMC & CRT v6", overlay=true, max_boxes_count=500, max_lines_count=500, max_labels_count=500)
+
+// ============================================================================
+// 1. PARAMÈTRES UTILISATEUR (CUSTOMIZABLE SETTINGS)
+// ============================================================================
+grp_smc = "1. Smart Money Concepts (OB, Structure, FVG)"
+swingLen     = input.int(5, "Longueur Swing (BOS/CHoCH)", minval=2, group=grp_smc)
+showOB       = input.bool(true, "Afficher Order Blocks (OB Zone + Volume %)", group=grp_smc)
+minObPct     = input.float(15.0, "Filtre Volume OB Minimum (%)", minval=1.0, maxval=90.0, group=grp_smc)
+showFVG      = input.bool(true, "Afficher Fair Value Gaps (FVG)", group=grp_smc)
+
+grp_crt = "2. Candle Range Theory (CRT) & Signaux"
+showCRT      = input.bool(true, "Activer le Filtre CRT (2H, 4H, 1D)", group=grp_crt)
+showSignals  = input.bool(true, "Afficher les Signaux Buy-KH / Sell-KH", group=grp_crt)
+showDash     = input.bool(true, "Afficher le Dashboard MTF & CRT", group=grp_crt)
+
+grp_col = "3. Couleurs & Style"
+colBullOB    = input.color(color.new(#00897b, 80), "OB Haussier (Zone)", group=grp_col)
+colBearOB    = input.color(color.new(#e53935, 80), "OB Baissier (Zone)", group=grp_col)
+colFVG       = input.color(color.new(#9e9e9e, 85), "Couleur FVG", group=grp_col)
+
+// ============================================================================
+// 2. STRUCTURE DE MARCHÉ (BOS & CHoCH)
+// ============================================================================
+var int trend = 0
+var float lastHigh = na
+var float lastLow  = na
+var int lastHighBar = na
+var int lastLowBar  = na
+
+ph = ta.pivothigh(high, swingLen, swingLen)
+pl = ta.pivotlow(low, swingLen, swingLen)
+
+if not na(ph)
+    lastHigh := ph
+    lastHighBar := bar_index - swingLen
+
+if not na(pl)
+    lastLow := pl
+    lastLowBar := bar_index - swingLen
+
+bool bosBull   = false
+bool chochBull = false
+bool bosBear   = false
+bool chochBear = false
+
+// Cassure Haussière
+if not na(lastHigh) and ta.crossover(close, lastHigh)
+    if trend == -1
+        chochBull := true
+        line.new(lastHighBar, lastHigh, bar_index, lastHigh, color=color.teal, style=line.style_dashed)
+        label.new(int(math.avg(lastHighBar, bar_index)), lastHigh, "CHoCH", color=color.new(color.white, 100), textcolor=color.teal, style=label.style_label_down, size=size.tiny)
+    else
+        bosBull := true
+        line.new(lastHighBar, lastHigh, bar_index, lastHigh, color=color.teal, style=line.style_solid)
+        label.new(int(math.avg(lastHighBar, bar_index)), lastHigh, "BOS", color=color.new(color.white, 100), textcolor=color.teal, style=label.style_label_down, size=size.tiny)
+    trend := 1
+    lastHigh := na
+
+// Cassure Baissière
+if not na(lastLow) and ta.crossunder(close, lastLow)
+    if trend == 1
+        chochBear := true
+        line.new(lastLowBar, lastLow, bar_index, lastLow, color=color.red, style=line.style_dashed)
+        label.new(int(math.avg(lastLowBar, bar_index)), lastLow, "CHoCH", color=color.new(color.white, 100), textcolor=color.red, style=label.style_label_up, size=size.tiny)
+    else
+        bosBear := true
+        line.new(lastLowBar, lastLow, bar_index, lastLow, color=color.red, style=line.style_solid)
+        label.new(int(math.avg(lastLowBar, bar_index)), lastLow, "BOS", color=color.new(color.white, 100), textcolor=color.red, style=label.style_label_up, size=size.tiny)
+    trend := -1
+    lastLow := na
+
+// ============================================================================
+// 3. FAIR VALUE GAPS (FVG)
+// ============================================================================
+bool bullFVG = low > high[2] and close[1] > open[1]
+bool bearFVG = high < low[2] and close[1] < open[1]
+
+if showFVG and bullFVG
+    box.new(bar_index - 2, low, bar_index + 8, high[2], border_color=na, bgcolor=colFVG, text="FVG", text_size=size.tiny, text_color=color.gray, text_halign=text.align_right)
+
+if showFVG and bearFVG
+    box.new(bar_index - 2, low[2], bar_index + 8, high, border_color=na, bgcolor=colFVG, text="FVG", text_size=size.tiny, text_color=color.gray, text_halign=text.align_right)
+
+// ============================================================================
+// 4. ORDER BLOCKS (OB ZONE) AVEC VOLUME & POURCENTAGE
+// ============================================================================
+type OBZone
+    box   zoneBox
+    label volLabel
+    float top
+    float bottom
+    bool  isBull
+    float volPct
+
+var array<OBZone> activeOBs = array.new<OBZone>()
+
+// Calcul du pool de volume sur 50 bougies pour obtenir le % de force
+float totalVolPool = math.sum(volume, 50)
+float zoneVol3     = volume + volume[1] + volume[2]
+float obPct        = totalVolPool > 0 ? (zoneVol3 / totalVolPool) * 100.0 : 0.0
+
+formatVol(float v, float pct) =>
+    string vStr = v >= 1000 ? str.tostring(v / 1000.0, "#.###") + "K" : str.tostring(math.round(v))
+    vStr + " (" + str.tostring(pct, "#") + "%)"
+
+// Détection OB Haussier (Bougie baissière suivie d'une expansion FVG haussière)
+if showOB and bullFVG and close[2] < open[2] and obPct >= minObPct
+    box b = box.new(bar_index - 2, open[2], bar_index, low[2], border_color=na, bgcolor=colBullOB)
+    label l = label.new(bar_index, math.avg(open[2], low[2]), formatVol(zoneVol3, obPct), color=color.new(color.white, 100), textcolor=color.teal, style=label.style_label_left, size=size.small)
+    activeOBs.push(OBZone.new(b, l, open[2], low[2], true, obPct))
+
+// Détection OB Baissier (Bougie haussière suivie d'une expansion FVG baissière)
+if showOB and bearFVG and close[2] > open[2] and obPct >= minObPct
+    box b = box.new(bar_index - 2, high[2], bar_index, open[2], border_color=na, bgcolor=colBearOB)
+    label l = label.new(bar_index, math.avg(high[2], open[2]), formatVol(zoneVol3, obPct), color=color.new(color.white, 100), textcolor=color.red, style=label.style_label_left, size=size.small)
+    activeOBs.push(OBZone.new(b, l, high[2], open[2], false, obPct))
+
+// Mise à jour de l'extension des OB et vérification du toucher de zone
+bool inBullOB = false
+bool inBearOB = false
+
+if activeOBs.size() > 0
+    for i = activeOBs.size() - 1 to 0
+        OBZone ob = activeOBs.get(i)
+        ob.zoneBox.set_right(bar_index + 5)
+        ob.volLabel.set_x(bar_index + 5)
+        
+        // Vérifier si le prix teste actuellement l'OB
+        if ob.isBull and low <= ob.top and close >= ob.bottom
+            inBullOB := true
+        if not ob.isBull and high >= ob.bottom and close <= ob.top
+            inBearOB := true
+            
+        // Invalidation si cassé en clôture (ou nettoyage des anciens OB)
+        if (ob.isBull and close < ob.bottom) or (not ob.isBull and close > ob.top) or (activeOBs.size() > 15 and i == 0)
+            ob.zoneBox.delete()
+            ob.volLabel.delete()
+            activeOBs.remove(i)
+
+// ============================================================================
+// 5. CANDLE RANGE THEORY (CRT - 2H, 4H, 1D) & MULTI-TIMEFRAME
+// ============================================================================
+getHTFData(string tf) =>
+    [h, l, c, o, ph_htf, pl_htf] = request.security(syminfo.tickerid, tf, [high, low, close, open, high[1], low[1]], lookahead=barmerge.lookahead_off)
+    bool isBull = c >= o
+    bool sweepLow  = l < pl_htf and c > pl_htf // Turtle Soup Haussier
+    bool sweepHigh = h > ph_htf and c < ph_htf // Turtle Soup Baissier
+    string status = sweepLow ? "SWEEP LOW (BULL)" : sweepHigh ? "SWEEP HIGH (BEAR)" : "IN RANGE"
+    [isBull, sweepLow, sweepHigh, status]
+
+[bull15M, _, _, _]                 = getHTFData("15")
+[bull1H, _, _, _]                  = getHTFData("60")
+[bull2H, swLow2H, swHigh2H, st2H]  = getHTFData("120")
+[bull4H, swLow4H, swHigh4H, st4H]  = getHTFData("240")
+[bull1D, swLow1D, swHigh1D, st1D]  = getHTFData("D")
+
+bool crtBullConfirm = not showCRT or swLow2H or swLow4H or swLow1D or bull4H
+bool crtBearConfirm = not showCRT or swHigh2H or swHigh4H or swHigh1D or not bull4H
+
+// ============================================================================
+// 6. SIGNAUX BUY-KH & SELL-KH (CONFLUENCE)
+// ============================================================================
+bool buySignal  = showSignals and (chochBull or bosBull or (close > open and bullFVG)) and (inBullOB or swLow4H or swLow1D) and crtBullConfirm
+bool sellSignal = showSignals and (chochBear or bosBear or (close < open and bearFVG)) and (inBearOB or swHigh4H or swHigh1D) and crtBearConfirm
+
+// Filtre anti-répétition
+var int lastSignalType = 0
+if buySignal and lastSignalType != 1
+    label.new(bar_index, low, "Buy-KH", color=color.new(#4db6ac, 15), textcolor=color.black, style=label.style_label_up, size=size.normal)
+    lastSignalType := 1
+
+if sellSignal and lastSignalType != -1
+    label.new(bar_index, high, "Sell-KH", color=color.new(#ef5350, 15), textcolor=color.black, style=label.style_label_down, size=size.normal)
+    lastSignalType := -1
+
+// ============================================================================
+// 7. TABLEAU DE BORD MULTI-TIMEFRAME & MODULE CRT (EN HAUT À DROITE)
+// ============================================================================
+var table dash = table.new(position.top_right, 2, 8, bgcolor=color.new(color.white, 10), border_width=1, border_color=color.gray)
+
+if barstate.islast and showDash
+    table.cell(dash, 0, 0, "15M", text_color=color.gray, text_size=size.small)
+    table.cell(dash, 1, 0, bull15M ? "BULLISH" : "BEARISH", text_color=bull15M ? color.teal : color.red, text_size=size.small)
+    
+    table.cell(dash, 0, 1, "1H", text_color=color.gray, text_size=size.small)
+    table.cell(dash, 1, 1, bull1H ? "BULLISH" : "BEARISH", text_color=bull1H ? color.teal : color.red, text_size=size.small)
+    
+    table.cell(dash, 0, 2, "4H", text_color=color.gray, text_size=size.small)
+    table.cell(dash, 1, 2, bull4H ? "BULLISH" : "BEARISH", text_color=bull4H ? color.teal : color.red, text_size=size.small)
+    
+    table.cell(dash, 0, 3, "1D", text_color=color.gray, text_size=size.small)
+    table.cell(dash, 1, 3, bull1D ? "BULLISH" : "BEARISH", text_color=bull1D ? color.teal : color.red, text_size=size.small)
+
+    table.cell(dash, 0, 4, "CRT Range", bgcolor=color.new(color.teal, 80), text_color=color.black, text_size=size.small)
+    table.cell(dash, 1, 4, "Status (HTF)", bgcolor=color.new(color.teal, 80), text_color=color.black, text_size=size.small)
+    
+    table.cell(dash, 0, 5, "CRT 2H", text_color=color.black, text_size=size.small)
+    table.cell(dash, 1, 5, st2H, text_color=swLow2H ? color.teal : swHigh2H ? color.red : color.gray, text_size=size.small)
+
+    table.cell(dash, 0, 6, "CRT 4H", text_color=color.black, text_size=size.small)
+    table.cell(dash, 1, 6, st4H, text_color=swLow4H ? color.teal : swHigh4H ? color.red : color.gray, text_size=size.small)
+
+    table.cell(dash, 0, 7, "CRT 1D", text_color=color.black, text_size=size.small)
+    table.cell(dash, 1, 7, st1D, text_color=swLow1D ? color.teal : swHigh4H ? color.red : color.gray, text_size=size.small)
+
+// Alertes automatiques
+alertcondition(buySignal, title="Signal Buy-KH", message="PWO SMC & CRT : Signal d'achat Buy-KH confirmé sur {{ticker}} ({{interval}})")
+alertcondition(sellSignal, title="Signal Sell-KH", message="PWO SMC & CRT : Signal de vente Sell-KH confirmé sur {{ticker}} ({{interval}})")

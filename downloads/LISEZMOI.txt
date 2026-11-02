@@ -1,0 +1,36 @@
+﻿ARI Pro sur un VPS Windows (MetaTrader 5, gratuit)
+
+ARI Pro, sur ton Mac ou ton téléphone, envoie ses ordres à MetaTrader 5 qui tourne sur le VPS.
+Sur le VPS, il faut MetaTrader 5 avec l'EA AriBridge, et le relais AriRelay.
+
+1. Copie ce dossier sur le VPS (Bureau à distance).
+2. Installe Python 3 sur le VPS : https://www.python.org/downloads/windows/
+   (garde la case « py launcher » cochée).
+3. MetaTrader 5 : Fichier > Ouvrir le dossier des données > MQL5 > Experts : copie AriBridge.mq5.
+   Ouvre-le dans MetaEditor (F4) et appuie sur Compiler (F7).
+   Glisse AriBridge sur un graphique et active « Algo Trading ».
+4. Fais un clic droit sur « Demarrage auto AriRelay.bat » > Exécuter en tant qu'administrateur
+   (ouvre les ports 8787 et 443 du pare-feu Windows et relance AriRelay à chaque ouverture de
+   session). Ou « Lancer AriRelay.bat » pour le lancer une seule fois. Note le code affiché.
+   La fenêtre dit quels ports sont ouverts (443 peut être pris par un autre programme).
+5. Si ton hébergeur a aussi un pare-feu dans son tableau de bord, ouvre-y le port TCP 8787
+   (ou 443 : certains hébergeurs bloquent 8787).
+6. Dans ARI Pro : Trading > Robot et courtier > « MetaTrader 5 sur un VPS Windows » :
+   saisis l'adresse IP du VPS et le code, puis Tester la connexion.
+   Sans port dans l'adresse, ARI Pro essaie 8787 puis 443 et retient celui qui marche.
+
+Pour retirer le démarrage automatique : lance AriRelay.py avec --sans-demarrage-auto.
+Pense aussi à faire démarrer MetaTrader 5 avec Windows (Win+R, shell:startup, raccourci).
+
+Le code protège ton compte : AriRelay refuse toute demande qui ne le porte pas.
+Pour le changer : lance AriRelay.py avec --nouveau-code, puis saisis le nouveau code dans ARI Pro.
+Teste d'abord avec un compte démo.
+METTRE À JOUR AriBridge (ex. 1.20 : protection Break-Even et stop suiveur)
+1. MetaTrader 5 : Fichier > Ouvrir le dossier des données > MQL5 > Experts : remplace AriBridge.mq5
+   par celui de ce dossier.
+2. MetaEditor (F4) : ouvre AriBridge.mq5 et appuie sur Compiler (F7) : « 0 errors ».
+3. Sur le MÊME graphique qu'avant, glisse AriBridge de nouveau (accepte de remplacer), coche
+   « Autoriser le trading algorithmique », et vérifie que le bouton « Algo Trading » est vert.
+   Ne touche pas aux autres EA ni à leurs graphiques (par exemple WikiFXDefense, ExpertMAPSAR).
+4. Dans ARI Pro : Tester la connexion. L'étape « AriBridge à jour » doit être verte.
+   Le code d'AriRelay ne change pas.

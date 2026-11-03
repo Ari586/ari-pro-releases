@@ -11,19 +11,28 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #fffaf6; color: #3b2924; }
         .mono { font-family: 'JetBrains Mono', monospace; }
-        .glass { background: rgba(255, 255, 255, 0.78); backdrop-filter: blur(12px); border: 1px solid #ead8ce; box-shadow: 0 12px 30px rgba(113, 67, 48, 0.06); }
+        .glass { background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(12px); border: 1px solid #ead8ce; box-shadow: 0 12px 30px rgba(113, 67, 48, 0.06); }
         .text-gradient { background: linear-gradient(to right, #b85f45, #d98264); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-gradient { background: linear-gradient(135deg, #b85f45, #d98264); transition: all 0.3s ease; }
+        .btn-gradient { background: linear-gradient(135deg, #b85f45, #d98264) !important; color: #ffffff !important; transition: all 0.3s ease; }
+        .btn-gradient * { color: #ffffff !important; }
+        .btn-gradient svg { stroke: #ffffff !important; color: #ffffff !important; }
         .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px #b85f45; }
         .card-gradient { background: linear-gradient(145deg, #fff2ea, #fffdfb); border: 1px solid #ead8ce; }
         .hero-blob { position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(184, 95, 69, 0.15) 0%, rgba(255,255,255,0) 70%); filter: blur(60px); z-index: -1; }
-        .text-slate-400,.text-slate-500,.text-slate-600 { color:#745f58 !important; }
+        .text-slate-300 { color:#3b2924 !important; }
+        .text-slate-400,.text-slate-500,.text-slate-600 { color:#6e554d !important; }
         .text-white { color:#3b2924 !important; }
-        .text-cyan-400,.text-cyan-500 { color:#b85f45 !important; }
-        .bg-slate-950\/50 { background-color:#fff1e9 !important; }
-        .border-white\/10 { border-color:#ead8ce !important; }
+        .btn-gradient, .btn-gradient *, .btn-gradient.text-white { color:#ffffff !important; }
+        .text-cyan-300, .text-cyan-400, .text-cyan-500 { color:#b85f45 !important; }
+        .text-violet-300, .text-violet-400 { color:#6d28d9 !important; }
+        .text-amber-300, .text-amber-400 { color:#b45309 !important; }
+        .text-rose-300, .text-rose-400 { color:#be123c !important; }
+        .text-emerald-300, .text-emerald-400 { color:#047857 !important; }
+        .text-sky-300, .text-sky-400 { color:#0369a1 !important; }
+        .bg-slate-950\/50, .bg-slate-950\/60, .bg-slate-950\/70, .bg-slate-950 { background-color:#fff1e9 !important; }
+        .bg-slate-900, .bg-slate-900\/40, .bg-slate-900\/60 { background-color:#fff4ed !important; }
+        .border-white\/5, .border-white\/10 { border-color:#ead8ce !important; }
         .bg-white { background-color:#fffaf6 !important; }
-        .bg-slate-900 { background-color:#fff4ed !important; }
         .bg-red-500\/20 { background-color:#f7dcd1 !important; }
         .text-red-400 { color:#a64f3a !important; }
         .architecture-flow { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:28px; }
@@ -123,7 +132,7 @@
     </section>
 
     <!-- How it Works -->
-    <section id="how-it-works" class="py-16 px-6 bg-slate-950/50">
+    <section id="how-it-works" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Comment fonctionne un agentic AI ?</h2>
@@ -162,67 +171,67 @@
     </section>
 
     <!-- Assistant IA Tout-en-Un -->
-    <section id="all-in-one-ai" class="py-16 px-6 bg-slate-950/60 border-y border-white/5">
+    <section id="all-in-one-ai" class="py-20 px-6 bg-[#fff2ea] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">AGENTIC AI MULTI-CAPACITÉS</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">L'IA Gratuite pour Tout Faire</h2>
-                <p class="text-slate-400 max-w-3xl mx-auto">
+                <span class="text-xs font-extrabold tracking-[0.25em] text-[#b85f45] uppercase">AGENTIC AI MULTI-CAPACITÉS</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-[#3b2924] mt-4 mb-4">L'IA Gratuite pour Tout Faire</h2>
+                <p class="text-[#6e554d] max-w-3xl mx-auto text-base font-medium leading-relaxed">
                     ARI Pro n'est pas limité au trading. C'est un agent autonome qui planifie votre journée, écrit et corrige votre code, génère des images, traite le son, explore le web et analyse vos documents — 100% privé, sans abonnement caché.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 <!-- 1. Planifier sa journée -->
-                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                <div class="p-8 rounded-3xl glass border border-[#ead8ce] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl btn-gradient flex items-center justify-center text-white mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="w-12 h-12 rounded-2xl btn-gradient flex items-center justify-center text-white mb-6 shadow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Planifier votre journée</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        <h3 class="text-xl font-extrabold text-[#3b2924] mb-3">Planifier votre journée</h3>
+                        <p class="text-[#5a423b] text-sm leading-relaxed mb-6 font-medium">
                             L'onglet « Ma Journée » structure vos tâches, objectifs prioritaires, rappels et bilans quotidiens avec un agent qui synchronise votre routine du matin au soir.
                         </p>
                     </div>
-                    <div class="rounded-2xl overflow-hidden border border-white/10 mt-auto">
+                    <div class="rounded-2xl overflow-hidden border border-[#ead8ce] shadow-sm mt-auto">
                         <img src="assets/screenshots/android-0b-ma-journee.png" alt="Capture Android réelle de l'onglet Ma Journée dans ARI Pro" class="w-full h-48 object-cover object-top" loading="lazy">
                     </div>
                 </div>
 
                 <!-- 2. Corriger et améliorer du code -->
-                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                <div class="p-8 rounded-3xl glass border border-[#ead8ce] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl btn-gradient flex items-center justify-center text-white mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="w-12 h-12 rounded-2xl btn-gradient flex items-center justify-center text-white mb-6 shadow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Coder, corriger & optimiser</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        <h3 class="text-xl font-extrabold text-[#3b2924] mb-3">Coder, corriger & optimiser</h3>
+                        <p class="text-[#5a423b] text-sm leading-relaxed mb-6 font-medium">
                             IDE intégré et assistant de code complet : détection de bugs, refactorisation, conversion de syntaxe, génération de scripts (Python, MQL5, C#, C++, Rust, JS, Dart).
                         </p>
                     </div>
-                    <div class="rounded-2xl overflow-hidden border border-white/10 mt-auto">
+                    <div class="rounded-2xl overflow-hidden border border-[#ead8ce] shadow-sm mt-auto">
                         <img src="assets/screenshots/android-1e-onglet-code.png" alt="Capture Android réelle de l'onglet Code et IDE dans ARI Pro" class="w-full h-48 object-cover object-top" loading="lazy">
                     </div>
                 </div>
 
                 <!-- 3. Recherche & Intelligence de Marché -->
-                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                <div class="p-8 rounded-3xl glass border border-[#ead8ce] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl btn-gradient flex items-center justify-center text-white mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="w-12 h-12 rounded-2xl btn-gradient flex items-center justify-center text-white mb-6 shadow">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Recherche & Veille Macro</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        <h3 class="text-xl font-extrabold text-[#3b2924] mb-3">Recherche & Veille Macro</h3>
+                        <p class="text-[#5a423b] text-sm leading-relaxed mb-6 font-medium">
                             Analyse en direct des tensions mondiales, radar géopolitique WorldMonitor, flux institutionnels, flux Yahoo Finance et Polymarket sans aucune publicité.
                         </p>
                     </div>
-                    <div class="rounded-2xl overflow-hidden border border-white/10 mt-auto">
+                    <div class="rounded-2xl overflow-hidden border border-[#ead8ce] shadow-sm mt-auto">
                         <img src="assets/screenshots/android-0-marches-complet.png" alt="Capture Android réelle de l'écran Marchés complet dans ARI Pro" class="w-full h-48 object-cover object-top" loading="lazy">
                     </div>
                 </div>
@@ -230,23 +239,23 @@
 
             <!-- Deuxième rangée : Images, son, 100% local -->
             <div class="grid md:grid-cols-3 gap-6">
-                <div class="p-6 rounded-3xl card-gradient">
-                    <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                        <span class="text-cyan-400">●</span> Création d'Images & Médias
+                <div class="p-6 rounded-3xl card-gradient border border-[#ead8ce] shadow-sm">
+                    <h4 class="text-lg font-extrabold text-[#3b2924] mb-2 flex items-center gap-2">
+                        <span class="text-[#b85f45]">●</span> Création d'Images & Médias
                     </h4>
-                    <p class="text-slate-400 text-sm">Générez et manipulez des visuels, graphiques et infographies avec vos modèles d'images connectés ou locaux, sans bridage.</p>
+                    <p class="text-[#5a423b] text-sm font-medium leading-relaxed">Générez et manipulez des visuels, graphiques et infographies avec vos modèles d'images connectés ou locaux, sans bridage.</p>
                 </div>
-                <div class="p-6 rounded-3xl card-gradient">
-                    <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                        <span class="text-cyan-400">●</span> Synthèse & Voix (Audio/Son)
+                <div class="p-6 rounded-3xl card-gradient border border-[#ead8ce] shadow-sm">
+                    <h4 class="text-lg font-extrabold text-[#3b2924] mb-2 flex items-center gap-2">
+                        <span class="text-[#b85f45]">●</span> Synthèse & Voix (Audio/Son)
                     </h4>
-                    <p class="text-slate-400 text-sm">Dictée vocale (Whisper STT) et lecture haute fidélité (TTS) intégrées pour dialoguer avec ARI à voix haute les mains libres.</p>
+                    <p class="text-[#5a423b] text-sm font-medium leading-relaxed">Dictée vocale (Whisper STT) et lecture haute fidélité (TTS) intégrées pour dialoguer avec ARI à voix haute les mains libres.</p>
                 </div>
-                <div class="p-6 rounded-3xl card-gradient">
-                    <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                        <span class="text-cyan-400">●</span> Confidentialité & Moteur Local
+                <div class="p-6 rounded-3xl card-gradient border border-[#ead8ce] shadow-sm">
+                    <h4 class="text-lg font-extrabold text-[#3b2924] mb-2 flex items-center gap-2">
+                        <span class="text-[#b85f45]">●</span> Confidentialité & Moteur Local
                     </h4>
-                    <p class="text-slate-400 text-sm">SeriousPython exécute tout directement sur votre machine ou mobile. Vos codes, conversations et clés restent 100% chez vous.</p>
+                    <p class="text-[#5a423b] text-sm font-medium leading-relaxed">SeriousPython exécute tout directement sur votre machine ou mobile. Vos codes, conversations et clés restent 100% chez vous.</p>
                 </div>
             </div>
         </div>
@@ -308,7 +317,7 @@
     </section>
 
     <!-- Guide -->
-    <section id="guide" class="py-16 px-6 bg-slate-950/50">
+    <section id="guide" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Guide de démarrage</h2>
@@ -348,47 +357,47 @@
     </section>
 
     <!-- Guide de Connexion des Courtiers Pas à Pas -->
-    <section id="brokers-guide" class="py-24 px-6 bg-slate-950/70 border-b border-white/5">
+    <section id="brokers-guide" class="py-24 px-6 bg-[#fffaf6] border-b border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">CONFIGURATION DÉTAILLÉE</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Guide de Connexion Courtier par Courtier</h2>
-                <p class="text-slate-400 max-w-3xl mx-auto">
+                <span class="text-xs font-bold tracking-[0.25em] text-[#b85f45]">CONFIGURATION DÉTAILLÉE</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-[#3b2924] mt-4 mb-4">Guide de Connexion Courtier par Courtier</h2>
+                <p class="text-[#5a423b] max-w-3xl mx-auto">
                     Dans l'application ARI Pro, rendez-vous dans l'écran <strong>Trading › Courtier › Changer de courtier</strong>. Voici les données exactes et étapes pour chaque plateforme.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- 1. cTrader Cloud & Open API -->
-                <div class="p-8 rounded-3xl glass border-2 border-cyan-500/40 flex flex-col justify-between">
+                <div class="p-8 rounded-3xl glass border-2 border-[#b85f45]/50 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold">100% SANS PC · CLOUD GRATUIT</span>
-                            <span class="text-xs text-slate-400">cTrader</span>
+                            <span class="px-3 py-1 rounded-full bg-[#fdeee7] text-[#b85f45] text-xs font-bold">100% SANS PC · CLOUD GRATUIT</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">cTrader</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">cTrader (Cloud & Open API)</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-2">cTrader (Cloud & Open API)</h3>
+                        <p class="text-[#5a423b] text-xs leading-relaxed mb-6">
                             Exécution directe dans le cloud Spotware. Zéro PC allumé, zéro frais d'abonnement.
                         </p>
 
                         <div class="space-y-4 text-xs">
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-cyan-400 font-bold block mb-1">1. Champ : Numéro de compte cTrader</span>
-                                <span class="text-slate-300">Votre <strong>Account ID</strong> cTrader (ex. <code>1234567</code>, visible sous votre compte dans cTrader).</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b85f45] font-bold block mb-1">1. Champ : Numéro de compte cTrader</span>
+                                <span class="text-[#3b2924]">Votre <strong>Account ID</strong> cTrader (ex. <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">1234567</code>, visible sous votre compte dans cTrader).</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-cyan-400 font-bold block mb-1">2. Champ : Jeton Spotware Open API</span>
-                                <span class="text-slate-300">Votre <strong>Access Token</strong> officiel généré gratuitement sur <a href="https://openapi.spotware.com" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">openapi.spotware.com</a>. Valable à vie.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b85f45] font-bold block mb-1">2. Champ : Jeton Spotware Open API</span>
+                                <span class="text-[#3b2924]">Votre <strong>Access Token</strong> officiel généré gratuitement sur <a href="https://openapi.spotware.com" target="_blank" rel="noopener noreferrer" class="text-[#b85f45] underline font-bold">openapi.spotware.com</a>. Valable à vie.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-cyan-400 font-bold block mb-1">3. Champ : URL API ou Webhook (Optionnel)</span>
-                                <span class="text-slate-300">Laissez vide pour l'API officielle (<code>https://api.spotware.com</code>) ou collez l'URL locale de votre cBot Cloud.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b85f45] font-bold block mb-1">3. Champ : URL API ou Webhook (Optionnel)</span>
+                                <span class="text-[#3b2924]">Laissez vide pour l'API officielle (<code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">https://api.spotware.com</code>) ou collez l'URL locale de votre cBot Cloud.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <span class="text-[11px] text-slate-400 block mb-2"><strong>Option Cloud sans téléphone ouvert :</strong> Importez directement <code>AriProCloudBot.cs</code> dans cTrader Web (app.ctrader.com › Automate).</span>
-                        <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="w-full inline-block px-4 py-2.5 rounded-xl btn-gradient text-white font-bold text-xs text-center">Télécharger AriProCloudBot.cs</a>
+                    <div class="mt-6 pt-4 border-t border-[#ead8ce]">
+                        <span class="text-[11px] text-[#5a423b] block mb-2"><strong>Option Cloud sans téléphone ouvert :</strong> Importez directement <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">AriProCloudBot.cs</code> dans cTrader Web (app.ctrader.com › Automate).</span>
+                        <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="w-full inline-block px-4 py-2.5 rounded-xl btn-gradient text-white font-bold text-xs text-center shadow-sm">Télécharger AriProCloudBot.cs</a>
                     </div>
                 </div>
 
@@ -396,31 +405,31 @@
                 <div class="p-8 rounded-3xl glass flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 text-xs font-bold">VPS WINDOWS RECOMMANDÉ</span>
-                            <span class="text-xs text-slate-400">MT5</span>
+                            <span class="px-3 py-1 rounded-full bg-[#ede9fe] text-[#6d28d9] text-xs font-bold">VPS WINDOWS RECOMMANDÉ</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">MT5</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">MetaTrader 5 sur VPS (AriRelay)</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-2">MetaTrader 5 sur VPS (AriRelay)</h3>
+                        <p class="text-[#5a423b] text-xs leading-relaxed mb-6">
                             Pour faire tourner MetaTrader 5 jour et nuit sans laisser votre ordinateur allumé.
                         </p>
 
                         <div class="space-y-4 text-xs">
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-violet-400 font-bold block mb-1">1. Champ : Adresse du VPS</span>
-                                <span class="text-slate-300">L'adresse IP de votre VPS Windows ou nom de domaine (ex. <code>vps.domaine.com</code> ou <code>51.15.20.12</code>).</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#6d28d9] font-bold block mb-1">1. Champ : Adresse du VPS</span>
+                                <span class="text-[#3b2924]">L'adresse IP de votre VPS Windows ou nom de domaine (ex. <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">vps.domaine.com</code> ou <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">51.15.20.12</code>).</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-violet-400 font-bold block mb-1">2. Champ : Code VPS (AriRelay)</span>
-                                <span class="text-slate-300">Le code secret temporaire à 6 chiffres affiché par <code>AriRelay.py</code> au démarrage sur le VPS.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#6d28d9] font-bold block mb-1">2. Champ : Code VPS (AriRelay)</span>
+                                <span class="text-[#3b2924]">Le code secret temporaire à 6 chiffres affiché par <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">AriRelay.py</code> au démarrage sur le VPS.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-violet-400 font-bold block mb-1">3. Installation sur MT5</span>
-                                <span class="text-slate-300">Copiez <code>AriBridge-1.21.ex5</code> dans <code>MQL5/Experts</code>, cochez <strong>Algo Trading</strong> et glissez l'EA sur un graphique en mode Hedging.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#6d28d9] font-bold block mb-1">3. Installation sur MT5</span>
+                                <span class="text-[#3b2924]">Copiez <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">AriBridge-1.21.ex5</code> dans <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">MQL5/Experts</code>, cochez <strong>Algo Trading</strong> et glissez l'EA sur un graphique en mode Hedging.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <a href="#vps-downloads" class="w-full inline-block px-4 py-2.5 rounded-xl glass text-cyan-300 font-bold text-xs text-center hover:bg-white/10">Télécharger le Pack VPS & WikiFX ↓</a>
+                    <div class="mt-6 pt-4 border-t border-[#ead8ce]">
+                        <a href="#vps-downloads" class="w-full inline-block px-4 py-2.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce] text-[#6d28d9] font-bold text-xs text-center hover:bg-white transition-colors">Télécharger le Pack VPS & WikiFX ↓</a>
                     </div>
                 </div>
 
@@ -428,31 +437,31 @@
                 <div class="p-8 rounded-3xl glass flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">PC WINDOWS LOCAL</span>
-                            <span class="text-xs text-slate-400">MT5 Local</span>
+                            <span class="px-3 py-1 rounded-full bg-[#ecfdf5] text-[#047857] text-xs font-bold">PC WINDOWS LOCAL</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">MT5 Local</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">MetaTrader 5 sur ce PC</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-2">MetaTrader 5 sur ce PC</h3>
+                        <p class="text-[#5a423b] text-xs leading-relaxed mb-6">
                             Connexion directe quand MetaTrader 5 est ouvert sur le même ordinateur Windows qu'ARI Pro.
                         </p>
 
                         <div class="space-y-4 text-xs">
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-emerald-400 font-bold block mb-1">1. Champ : Serveur courtier</span>
-                                <span class="text-slate-300">Le nom exact de votre serveur (ex. <code>Exness-MT5Real8</code>, <code>ICMarketsSC-Live</code>).</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#047857] font-bold block mb-1">1. Champ : Serveur courtier</span>
+                                <span class="text-[#3b2924]">Le nom exact de votre serveur (ex. <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">Exness-MT5Real8</code>, <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">ICMarketsSC-Live</code>).</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-emerald-400 font-bold block mb-1">2. Champ : Identifiant (Login)</span>
-                                <span class="text-slate-300">Votre numéro de compte MetaTrader 5.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#047857] font-bold block mb-1">2. Champ : Identifiant (Login)</span>
+                                <span class="text-[#3b2924]">Votre numéro de compte MetaTrader 5.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-emerald-400 font-bold block mb-1">3. Champ : Mot de passe</span>
-                                <span class="text-slate-300">Votre mot de passe de trading (chiffré et stocké localement sur votre ordinateur).</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#047857] font-bold block mb-1">3. Champ : Mot de passe</span>
+                                <span class="text-[#3b2924]">Votre mot de passe de trading (chiffré et stocké localement sur votre ordinateur).</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <span class="text-[11px] text-slate-400 block text-center">AriBridge communique via le port local sécurisé <code>8765</code>.</span>
+                    <div class="mt-6 pt-4 border-t border-[#ead8ce]">
+                        <span class="text-[11px] text-[#5a423b] block text-center">AriBridge communique via le port local sécurisé <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">8765</code>.</span>
                     </div>
                 </div>
 
@@ -460,35 +469,35 @@
                 <div class="p-8 rounded-3xl glass flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold">MT4 / MT5 CLOUD</span>
-                            <span class="text-xs text-slate-400">MetaAPI</span>
+                            <span class="px-3 py-1 rounded-full bg-[#fef3c7] text-[#b45309] text-xs font-bold">MT4 / MT5 CLOUD</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">MetaAPI</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">MetaTrader par MetaAPI</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-2">MetaTrader par MetaAPI</h3>
+                        <p class="text-[#5a423b] text-xs leading-relaxed mb-6">
                             Permet de connecter un compte MT4 ou MT5 directement depuis un smartphone sans aucun logiciel installé.
                         </p>
 
                         <div class="space-y-4 text-xs">
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-amber-400 font-bold block mb-1">1. Sélecteur : Plateforme</span>
-                                <span class="text-slate-300">Basculez entre <strong>MetaTrader 4</strong> ou <strong>MetaTrader 5</strong> selon votre compte.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b45309] font-bold block mb-1">1. Sélecteur : Plateforme</span>
+                                <span class="text-[#3b2924]">Basculez entre <strong>MetaTrader 4</strong> ou <strong>MetaTrader 5</strong> selon votre compte.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-amber-400 font-bold block mb-1">2. Champ : Serveur courtier</span>
-                                <span class="text-slate-300">Tapez le nom de votre courtier pour rechercher automatiquement le serveur dans l'annuaire.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b45309] font-bold block mb-1">2. Champ : Serveur courtier</span>
+                                <span class="text-[#3b2924]">Tapez le nom de votre courtier pour rechercher automatiquement le serveur dans l'annuaire.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-amber-400 font-bold block mb-1">3. Champs : Identifiant & Mot de passe</span>
-                                <span class="text-slate-300">Vos identifiants de compte MT4/MT5.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b45309] font-bold block mb-1">3. Champs : Identifiant & Mot de passe</span>
+                                <span class="text-[#3b2924]">Vos identifiants de compte MT4/MT5.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-amber-400 font-bold block mb-1">4. Champ : Jeton MetaAPI</span>
-                                <span class="text-slate-300">Votre token créé sur <code>app.metaapi.cloud</code>.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#b45309] font-bold block mb-1">4. Champ : Jeton MetaAPI</span>
+                                <span class="text-[#3b2924]">Votre token créé sur <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">app.metaapi.cloud</code>.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <span class="text-[11px] text-slate-400 block text-center">Service tiers MetaAPI requis.</span>
+                    <div class="mt-6 pt-4 border-t border-[#ead8ce]">
+                        <span class="text-[11px] text-[#5a423b] block text-center">Service tiers MetaAPI requis.</span>
                     </div>
                 </div>
 
@@ -496,27 +505,27 @@
                 <div class="p-8 rounded-3xl glass flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-bold">SYNTHÉTIQUES & FOREX</span>
-                            <span class="text-xs text-slate-400">Deriv</span>
+                            <span class="px-3 py-1 rounded-full bg-[#ffe4e6] text-[#be123c] text-xs font-bold">SYNTHÉTIQUES & FOREX</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">Deriv</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Deriv (API Directe)</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-2">Deriv (API Directe)</h3>
+                        <p class="text-[#5a423b] text-xs leading-relaxed mb-6">
                             Connexion directe pour trader les indices synthétiques (Crash, Boom, Volatility) et les devises.
                         </p>
 
                         <div class="space-y-4 text-xs">
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-rose-400 font-bold block mb-1">1. Champ : Jeton API Deriv</span>
-                                <span class="text-slate-300">Votre token API généré sur <code>developers.deriv.com</code> avec la permission <strong>« trade »</strong> cochée.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#be123c] font-bold block mb-1">1. Champ : Jeton API Deriv</span>
+                                <span class="text-[#3b2924]">Votre token API généré sur <code class="px-1 py-0.5 rounded bg-white border border-[#ead8ce] font-mono">developers.deriv.com</code> avec la permission <strong>« trade »</strong> cochée.</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-rose-400 font-bold block mb-1">2. Champ : App ID Deriv</span>
-                                <span class="text-slate-300">L'identifiant de votre application PAT enregistrée sur votre dashboard Deriv.</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#be123c] font-bold block mb-1">2. Champ : App ID Deriv</span>
+                                <span class="text-[#3b2924]">L'identifiant de votre application PAT enregistrée sur votre dashboard Deriv.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <span class="text-[11px] text-slate-400 block text-center">Commencez avec l'option Démo avant d'activer le compte réel.</span>
+                    <div class="mt-6 pt-4 border-t border-[#ead8ce]">
+                        <span class="text-[11px] text-[#5a423b] block text-center">Commencez avec l'option Démo avant d'activer le compte réel.</span>
                     </div>
                 </div>
 
@@ -524,27 +533,27 @@
                 <div class="p-8 rounded-3xl glass flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-bold">CFD ACTIONS & SIMULATION</span>
-                            <span class="text-xs text-slate-400">Capital & Démo</span>
+                            <span class="px-3 py-1 rounded-full bg-[#e0f2fe] text-[#0369a1] text-xs font-bold">CFD ACTIONS & SIMULATION</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">Capital & Démo</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Capital.com & Démo ARI</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-2">Capital.com & Démo ARI</h3>
+                        <p class="text-[#5a423b] text-xs leading-relaxed mb-6">
                             Accédez aux CFD actions/indices régulés ou entraînez-vous en mode sans risque.
                         </p>
 
                         <div class="space-y-4 text-xs">
-                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
-                                <span class="text-sky-400 font-bold block mb-1">Pour Capital.com :</span>
-                                <span class="text-slate-300">Saisissez votre <strong>E-mail</strong>, votre <strong>Mot de passe</strong> et votre <strong>Clé API</strong> (générée dans les réglages API de Capital.com).</span>
+                            <div class="p-3.5 rounded-xl bg-[#fff2ea] border border-[#ead8ce]">
+                                <span class="text-[#0369a1] font-bold block mb-1">Pour Capital.com :</span>
+                                <span class="text-[#3b2924]">Saisissez votre <strong>E-mail</strong>, votre <strong>Mot de passe</strong> et votre <strong>Clé API</strong> (générée dans les réglages API de Capital.com).</span>
                             </div>
-                            <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30">
-                                <span class="text-emerald-400 font-bold block mb-1">Pour la Démo ARI (Zéro risque) :</span>
-                                <span class="text-slate-300"><strong>Zéro donnée requise !</strong> Cliquez simplement sur « Utiliser la démo et tester ». Vous tradez instantanément avec 10 000 $ fictifs sur les vrais cours en direct.</span>
+                            <div class="p-3.5 rounded-xl bg-[#ecfdf5] border border-[#a7f3d0]">
+                                <span class="text-[#047857] font-bold block mb-1">Pour la Démo ARI (Zéro risque) :</span>
+                                <span class="text-[#3b2924]"><strong>Zéro donnée requise !</strong> Cliquez simplement sur « Utiliser la démo et tester ». Vous tradez instantanément avec 10 000 $ fictifs sur les vrais cours en direct.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <span class="text-[11px] text-emerald-400 block font-bold text-center">✓ 100% sans risque en mode Démo ARI</span>
+                    <div class="mt-6 pt-4 border-t border-[#ead8ce]">
+                        <span class="text-[11px] text-[#047857] block font-bold text-center">✓ 100% sans risque en mode Démo ARI</span>
                     </div>
                 </div>
             </div>
@@ -552,97 +561,97 @@
     </section>
 
     <!-- Trading sur Smartphone sans PC & cTrader -->
-    <section id="mobile-trader" class="py-16 px-6 bg-slate-900/40">
+    <section id="mobile-trader" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
-                <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">PAS DE PC ? ZÉRO SERVEUR À PAYER</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Trading Automatique sur Smartphone</h2>
-                <p class="text-slate-400 max-w-3xl mx-auto">
+                <span class="text-xs font-bold tracking-[0.25em] text-[#b85f45]">PAS DE PC ? ZÉRO SERVEUR À PAYER</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-[#3b2924] mt-4 mb-4">Trading Automatique sur Smartphone</h2>
+                <p class="text-[#5a423b] max-w-3xl mx-auto">
                     Vous n'avez pas d'ordinateur ou refusez de payer un VPS ? Découvrez les 2 solutions officielles 100% gratuites pour faire tourner ARI Pro 24h/24 7j/7 directement depuis votre smartphone.
                 </p>
             </div>
 
             <!-- Fausse idée : Webhook payant ? -->
-            <div class="p-6 rounded-3xl bg-cyan-950/40 border border-cyan-500/30 mb-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="p-6 rounded-3xl bg-[#fffdfb] border-2 border-[#b85f45]/40 mb-12 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
                 <div>
-                    <h4 class="text-lg font-bold text-cyan-300 mb-1">« Mais les webhooks et serveurs sont payants ? »</h4>
-                    <p class="text-slate-300 text-sm leading-relaxed">
+                    <h4 class="text-lg font-bold text-[#b85f45] mb-1">« Mais les webhooks et serveurs sont payants ? »</h4>
+                    <p class="text-[#3b2924] text-sm leading-relaxed">
                         <strong>C'est faux !</strong> Sur cTrader, le Cloud Spotware est <strong>offert à 100%</strong> par votre courtier. Pour les notifications, les webhooks Discord et Telegram sont <strong>100% gratuits</strong>. Pour les connexions distantes, Cloudflare Quick Tunnel et Spotware Open API ne coûtent aucun centime.
                     </p>
                 </div>
-                <div class="shrink-0 px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 font-bold text-xs">
+                <div class="shrink-0 px-4 py-2 rounded-xl bg-[#fdeee7] text-[#b85f45] font-bold text-xs border border-[#ead8ce]">
                     0 € / MOIS À VIE
                 </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 items-stretch">
                 <!-- Solution 1: cTrader Cloud cBot -->
-                <div class="p-8 rounded-3xl glass border-2 border-cyan-500/40 flex flex-col justify-between">
+                <div class="p-8 rounded-3xl glass border-2 border-[#b85f45]/50 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-xs font-bold">SOLUTION 1 · RECOMMANDÉE</span>
-                            <span class="text-xs text-slate-400">Sans PC · Sans VPS</span>
+                            <span class="px-3 py-1 rounded-full bg-[#fdeee7] text-[#b85f45] text-xs font-bold">SOLUTION 1 · RECOMMANDÉE</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">Sans PC · Sans VPS</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">cBot cTrader Cloud Automate</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                            Spotware propose <strong>cTrader Cloud</strong> gratuit : votre robot tourne directement sur les serveurs du courtier. Vous pouvez l'importer et le lancer depuis le navigateur de votre smartphone sur <code class="text-cyan-300">app.ctrader.com</code> ou depuis l'application cTrader Mobile.
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-3">cBot cTrader Cloud Automate</h3>
+                        <p class="text-[#5a423b] text-sm leading-relaxed mb-6">
+                            Spotware propose <strong>cTrader Cloud</strong> gratuit : votre robot tourne directement sur les serveurs du courtier. Vous pouvez l'importer et le lancer depuis le navigateur de votre smartphone sur <code class="px-1.5 py-0.5 rounded bg-white border border-[#ead8ce] text-[#b85f45] font-mono font-bold">app.ctrader.com</code> ou depuis l'application cTrader Mobile.
                         </p>
                         <div class="space-y-3 mb-6 text-sm">
                             <div class="flex items-start gap-3">
-                                <span class="text-cyan-400 font-bold">✓</span>
-                                <span class="text-slate-300"><strong>Stratégies intégrées :</strong> Havana-SMC + PWO SMC & CRT v6.</span>
+                                <span class="text-[#b85f45] font-bold text-base">✓</span>
+                                <span class="text-[#3b2924]"><strong>Stratégies intégrées :</strong> Havana-SMC + PWO SMC & CRT v6.</span>
                             </div>
                             <div class="flex items-start gap-3">
-                                <span class="text-cyan-400 font-bold">✓</span>
-                                <span class="text-slate-300"><strong>Risk Shield strict :</strong> Stop Loss obligatoire, Break-Even auto à +1R, risque par trade 0.25%-3%, coupe-circuit perte journalière.</span>
+                                <span class="text-[#b85f45] font-bold text-base">✓</span>
+                                <span class="text-[#3b2924]"><strong>Risk Shield strict :</strong> Stop Loss obligatoire, Break-Even auto à +1R, risque par trade 0.25%-3%, coupe-circuit perte journalière.</span>
                             </div>
                             <div class="flex items-start gap-3">
-                                <span class="text-cyan-400 font-bold">✓</span>
-                                <span class="text-slate-300"><strong>Autonomie totale :</strong> Fonctionne 24h/24 même téléphone éteint.</span>
+                                <span class="text-[#b85f45] font-bold text-base">✓</span>
+                                <span class="text-[#3b2924]"><strong>Autonomie totale :</strong> Fonctionne 24h/24 même téléphone éteint.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-                        <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm text-center flex-1">
+                    <div class="pt-4 border-t border-[#ead8ce] flex flex-col sm:flex-row gap-3">
+                        <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm text-center flex-1 shadow-sm">
                             Télécharger AriProCloudBot.cs
                         </a>
-                        <a href="https://app.ctrader.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl glass text-white font-bold text-sm text-center">
+                        <a href="https://app.ctrader.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl bg-white/80 border border-[#ead8ce] text-[#3b2924] font-bold text-sm text-center hover:bg-white transition-colors">
                             Ouvrir cTrader Web ↗
                         </a>
                     </div>
                 </div>
 
                 <!-- Solution 2: Pont cTrader Open API direct -->
-                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                <div class="p-8 rounded-3xl glass border border-[#ead8ce] flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-4">
-                            <span class="px-3 py-1 rounded-full bg-violet-500/20 text-violet-400 text-xs font-bold">SOLUTION 2 · NATIF MOBILE</span>
-                            <span class="text-xs text-slate-400">Application ARI Pro</span>
+                            <span class="px-3 py-1 rounded-full bg-[#ede9fe] text-[#6d28d9] text-xs font-bold">SOLUTION 2 · NATIF MOBILE</span>
+                            <span class="text-xs text-[#6e554d] font-semibold">Application ARI Pro</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Pont cTrader Open API v2 Direct</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
-                            L'application mobile ARI Pro (Android APK) intègre nativement le connecteur <strong>Spotware Open API v2</strong>. Renseignez votre identifiant cTrader et votre Access Token (gratuit sur <code class="text-violet-300">openapi.spotware.com</code>) : l'application trade directement avec votre broker.
+                        <h3 class="text-2xl font-bold text-[#3b2924] mb-3">Pont cTrader Open API v2 Direct</h3>
+                        <p class="text-[#5a423b] text-sm leading-relaxed mb-6">
+                            L'application mobile ARI Pro (Android APK) intègre nativement le connecteur <strong>Spotware Open API v2</strong>. Renseignez votre identifiant cTrader et votre Access Token (gratuit sur <code class="px-1.5 py-0.5 rounded bg-white border border-[#ead8ce] text-[#6d28d9] font-mono font-bold">openapi.spotware.com</code>) : l'application trade directement avec votre broker.
                         </p>
                         <div class="space-y-3 mb-6 text-sm">
                             <div class="flex items-start gap-3">
-                                <span class="text-violet-400 font-bold">✓</span>
-                                <span class="text-slate-300"><strong>Zéro abonnement MetaAPI :</strong> Spotware Open API est 100% gratuit à vie.</span>
+                                <span class="text-[#6d28d9] font-bold text-base">✓</span>
+                                <span class="text-[#3b2924]"><strong>Zéro abonnement MetaAPI :</strong> Spotware Open API est 100% gratuit à vie.</span>
                             </div>
                             <div class="flex items-start gap-3">
-                                <span class="text-violet-400 font-bold">✓</span>
-                                <span class="text-slate-300"><strong>Exécution mobile native :</strong> Le moteur SeriousPython sur Android gère les ordres avec SL/TP calculés par ATR.</span>
+                                <span class="text-[#6d28d9] font-bold text-base">✓</span>
+                                <span class="text-[#3b2924]"><strong>Exécution mobile native :</strong> Le moteur SeriousPython sur Android gère les ordres avec SL/TP calculés par ATR.</span>
                             </div>
                             <div class="flex items-start gap-3">
-                                <span class="text-violet-400 font-bold">✓</span>
-                                <span class="text-slate-300"><strong>Webhooks gratuits :</strong> Recevez chaque exécution sur votre canal Discord ou Telegram.</span>
+                                <span class="text-[#6d28d9] font-bold text-base">✓</span>
+                                <span class="text-[#3b2924]"><strong>Webhooks gratuits :</strong> Recevez chaque exécution sur votre canal Discord ou Telegram.</span>
                             </div>
                         </div>
                     </div>
-                    <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-                        <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARIPro-1.0.65.apk" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm text-center flex-1">
+                    <div class="pt-4 border-t border-[#ead8ce] flex flex-col sm:flex-row gap-3">
+                        <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARIPro-1.0.65.apk" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm text-center flex-1 shadow-sm">
                             Télécharger ARI Pro Android
                         </a>
-                        <a href="https://openapi.spotware.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl glass text-white font-bold text-sm text-center">
+                        <a href="https://openapi.spotware.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl bg-white/80 border border-[#ead8ce] text-[#3b2924] font-bold text-sm text-center hover:bg-white transition-colors">
                             Créer Token Spotware ↗
                         </a>
                     </div>
@@ -650,14 +659,14 @@
             </div>
 
             <!-- Alternative MT5 avec WikiFX -->
-            <div class="mt-8 p-7 rounded-3xl glass flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="mt-8 p-7 rounded-3xl glass border border-[#ead8ce] flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
-                    <h4 class="text-xl font-bold text-white mb-2">Vous préférez MetaTrader 5 (MT5) ?</h4>
-                    <p class="text-slate-400 text-sm max-w-2xl">
+                    <h4 class="text-xl font-bold text-[#3b2924] mb-2">Vous préférez MetaTrader 5 (MT5) ?</h4>
+                    <p class="text-[#5a423b] text-sm max-w-2xl">
                         Vous pouvez obtenir un <strong>VPS Windows gratuit sur WikiFX</strong>, y installer le pack AriBridge + MetaTrader 5, et piloter votre bureau à distance directement depuis votre smartphone avec l'application gratuite <strong>Microsoft Remote Desktop (RD Client)</strong>.
                     </p>
                 </div>
-                <a href="#vps-downloads" class="px-6 py-3 rounded-2xl glass text-cyan-300 font-bold text-sm whitespace-nowrap hover:bg-white/10 transition-colors">
+                <a href="#vps-downloads" class="px-6 py-3 rounded-2xl bg-[#fff2ea] border border-[#ead8ce] text-[#b85f45] font-bold text-sm whitespace-nowrap hover:bg-white transition-colors">
                     Voir la procédure VPS WikiFX ↓
                 </a>
             </div>
@@ -665,59 +674,59 @@
     </section>
 
     <!-- Stratégie PWO SMC & CRT v6 Pro -->
-    <section id="pwo-v6" class="py-16 px-6 bg-slate-950/60 border-t border-white/5">
+    <section id="pwo-v6" class="py-16 px-6 bg-[#fffaf6] border-t border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
-                <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">PINE SCRIPT V6 OFFICIEL & PYTHON NATIF</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Stratégie PWO SMC & CRT [v6 Pro]</h2>
-                <p class="text-slate-400 max-w-3xl mx-auto">
+                <span class="text-xs font-bold tracking-[0.25em] text-[#b85f45]">PINE SCRIPT V6 OFFICIEL & PYTHON NATIF</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-[#3b2924] mt-4 mb-4">Stratégie PWO SMC & CRT [v6 Pro]</h2>
+                <p class="text-[#5a423b] max-w-3xl mx-auto">
                     Confluence de haut niveau entre la théorie des plages de bougies (Candle Range Theory) et les Smart Money Concepts (Order Blocks avec filtre volumétrique et FVG).
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                <div class="p-6 rounded-3xl glass">
-                    <span class="text-xs font-bold text-cyan-400">PILIER 01</span>
-                    <h3 class="text-lg font-bold text-white mt-2 mb-2">Structure BOS & CHoCH</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
+                <div class="p-6 rounded-3xl glass border border-[#ead8ce]">
+                    <span class="text-xs font-bold text-[#b85f45]">PILIER 01</span>
+                    <h3 class="text-lg font-bold text-[#3b2924] mt-2 mb-2">Structure BOS & CHoCH</h3>
+                    <p class="text-[#5a423b] text-xs leading-relaxed font-medium">
                         Détection automatique des cassures de structure (BOS) et changements de caractère (CHoCH) sur pivots swing pour identifier la vraie tendance institutionnelle.
                     </p>
                 </div>
-                <div class="p-6 rounded-3xl glass">
-                    <span class="text-xs font-bold text-cyan-400">PILIER 02</span>
-                    <h3 class="text-lg font-bold text-white mt-2 mb-2">Order Blocks & Volume %</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
+                <div class="p-6 rounded-3xl glass border border-[#ead8ce]">
+                    <span class="text-xs font-bold text-[#b85f45]">PILIER 02</span>
+                    <h3 class="text-lg font-bold text-[#3b2924] mt-2 mb-2">Order Blocks & Volume %</h3>
+                    <p class="text-[#5a423b] text-xs leading-relaxed font-medium">
                         Filtre strict de volume : seuls les Order Blocks dont l'accumulation représente au moins 15% du pool récent sont validés pour éviter les fausses zones.
                     </p>
                 </div>
-                <div class="p-6 rounded-3xl glass">
-                    <span class="text-xs font-bold text-cyan-400">PILIER 03</span>
-                    <h3 class="text-lg font-bold text-white mt-2 mb-2">Fair Value Gaps (FVG)</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
+                <div class="p-6 rounded-3xl glass border border-[#ead8ce]">
+                    <span class="text-xs font-bold text-[#b85f45]">PILIER 03</span>
+                    <h3 class="text-lg font-bold text-[#3b2924] mt-2 mb-2">Fair Value Gaps (FVG)</h3>
+                    <p class="text-[#5a423b] text-xs leading-relaxed font-medium">
                         Repérage instantané des déséquilibres d'achat/vente (imbalances à 3 bougies) avec tracé des zones de rééquilibrage de liquidité.
                     </p>
                 </div>
-                <div class="p-6 rounded-3xl glass">
-                    <span class="text-xs font-bold text-cyan-400">PILIER 04</span>
-                    <h3 class="text-lg font-bold text-white mt-2 mb-2">CRT Multi-Timeframe</h3>
-                    <p class="text-slate-400 text-xs leading-relaxed">
+                <div class="p-6 rounded-3xl glass border border-[#ead8ce]">
+                    <span class="text-xs font-bold text-[#b85f45]">PILIER 04</span>
+                    <h3 class="text-lg font-bold text-[#3b2924] mt-2 mb-2">CRT Multi-Timeframe</h3>
+                    <p class="text-[#5a423b] text-xs leading-relaxed font-medium">
                         Analyse confluente sur 2H, 4H et 1D : détection des Sweeps de liquidité (Turtle Soup) et confirmation obligatoire avant tout signal Buy-KH ou Sell-KH (R:R &ge; 2:1).
                     </p>
                 </div>
             </div>
 
-            <div class="p-8 rounded-3xl card-gradient flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="p-8 rounded-3xl bg-[#fff2ea] border border-[#ead8ce] flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
                 <div>
-                    <h3 class="text-2xl font-bold text-white mb-2">Disponible dans ARI Pro et sur TradingView</h3>
-                    <p class="text-slate-300 text-sm max-w-2xl">
+                    <h3 class="text-2xl font-bold text-[#3b2924] mb-2">Disponible dans ARI Pro et sur TradingView</h3>
+                    <p class="text-[#5a423b] text-sm max-w-2xl leading-relaxed">
                         La stratégie est intégrée nativement dans ARI Pro (Python & Flutter) pour le robot suiveur et les alertes. Vous pouvez également copier le code Pine Script v6 officiel pour vos graphiques TradingView.
                     </p>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3">
-                    <a href="downloads/PWO_SMC_CRT_v6.pine" download="PWO_SMC_CRT_v6.pine" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm whitespace-nowrap">
+                    <a href="downloads/PWO_SMC_CRT_v6.pine" download="PWO_SMC_CRT_v6.pine" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm whitespace-nowrap shadow-sm">
                         Télécharger Pine Script v6 (.pine)
                     </a>
-                    <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="px-6 py-3 rounded-2xl glass text-white font-bold text-sm whitespace-nowrap">
+                    <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="px-6 py-3 rounded-2xl bg-white/80 border border-[#ead8ce] text-[#3b2924] font-bold text-sm whitespace-nowrap hover:bg-white transition-colors">
                         Version cBot cTrader (.cs)
                     </a>
                 </div>
@@ -751,7 +760,7 @@
     </section>
 
     <!-- App mobile / vues compactes -->
-    <section id="mobile-app" class="py-16 px-6 bg-slate-950/50">
+    <section id="mobile-app" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">EXPÉRIENCE MOBILE</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Les écrans de l’application</h2></div>
             <details class="gallery-accordion" open>
@@ -807,7 +816,7 @@
     </section>
 
     <!-- Trading A → Z -->
-    <section id="trading-az" class="py-16 px-6 bg-slate-950/50">
+    <section id="trading-az" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
                 <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">GUIDE COMPLET</span>
@@ -841,7 +850,7 @@
     </section>
 
     <!-- Documentation utilisateur -->
-    <section id="documentation" class="py-16 px-6 bg-slate-950/50">
+    <section id="documentation" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">DOCUMENTATION UTILISATEUR</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Installez et maintenez votre VPS</h2></div>
             <div class="grid md:grid-cols-3 gap-6">
@@ -869,15 +878,15 @@
     </section>
 
     <!-- Buy me a coffee -->
-    <section id="support" class="py-16 px-6 bg-slate-950/50">
+    <section id="support" class="py-16 px-6 bg-[#fff1e9] border-y border-[#ead8ce]">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">BUY ME A COFFEE</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Soutenir le projet ARI Pro</h2><p class="text-slate-400 max-w-2xl mx-auto">Si ARI Pro vous aide, vous pouvez soutenir son développement avec une contribution libre via Binance, Kraken ou PayPal.</p></div>
+            <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-[#b85f45]">BUY ME A COFFEE</span><h2 class="text-3xl md:text-5xl font-extrabold text-[#3b2924] mt-4 mb-4">Soutenir le projet ARI Pro</h2><p class="text-[#5a423b] max-w-2xl mx-auto">Si ARI Pro vous aide, vous pouvez soutenir son développement avec une contribution libre via Binance, Kraken ou PayPal.</p></div>
             <div class="grid md:grid-cols-3 gap-6">
-                <article class="p-6 rounded-3xl glass text-center"><h3 class="text-2xl font-bold text-white mb-2">Binance</h3><p class="text-slate-400 text-sm mb-5">Ouvrez l’application Binance et scannez le QR code.</p><img src="assets/binance_qr.jpg" alt="QR code Binance Ari Havana" class="w-full max-w-[260px] h-64 object-contain bg-white rounded-2xl mx-auto p-3"><p class="text-xs text-slate-400 mt-4">Compte : <strong class="text-white">Ari_havana</strong><br><span class="text-slate-500">Pay ID : 1220050893</span></p></article>
-                <article class="p-6 rounded-3xl glass text-center"><h3 class="text-2xl font-bold text-white mb-2">Kraken</h3><p class="text-slate-400 text-sm mb-5">Scannez le QR code depuis l’application Kraken.</p><img src="assets/kraken_qr.jpg" alt="QR code Kraken pour soutenir Ari Pro" class="w-full max-w-[260px] h-64 object-contain bg-white rounded-2xl mx-auto p-3"><p class="text-xs text-slate-400 mt-4">Compte : <strong class="text-white">Ha_vana</strong><br><span class="text-slate-500">Contribution crypto directe</span></p></article>
-                <article class="p-6 rounded-3xl glass text-center"><h3 class="text-2xl font-bold text-white mb-2">PayPal</h3><p class="text-slate-400 text-sm mb-5">Utilisez l’application PayPal pour scanner le QR code.</p><img src="assets/paypal_qr.jpg" alt="QR code PayPal pour soutenir Ari Pro" class="w-full max-w-[260px] h-64 object-contain bg-white rounded-2xl mx-auto p-3"><p class="text-xs text-slate-400 mt-4">Lien / pseudo : <strong class="text-white">@LahatraAriel</strong><br><span class="text-slate-500">paypal.me/LahatraAriel</span></p></article>
+                <article class="p-6 rounded-3xl glass border border-[#ead8ce] text-center"><h3 class="text-2xl font-bold text-[#3b2924] mb-2">Binance</h3><p class="text-[#5a423b] text-sm mb-5">Ouvrez l’application Binance et scannez le QR code.</p><img src="assets/binance_qr.jpg" alt="QR code Binance Ari Havana" class="w-full max-w-[260px] h-64 object-contain bg-white rounded-2xl mx-auto p-3 shadow-sm border border-[#ead8ce]"><p class="text-xs text-[#5a423b] mt-4">Compte : <strong class="text-[#3b2924]">Ari_havana</strong><br><span class="text-[#6e554d]">Pay ID : 1220050893</span></p></article>
+                <article class="p-6 rounded-3xl glass border border-[#ead8ce] text-center"><h3 class="text-2xl font-bold text-[#3b2924] mb-2">Kraken</h3><p class="text-[#5a423b] text-sm mb-5">Scannez le QR code depuis l’application Kraken.</p><img src="assets/kraken_qr.jpg" alt="QR code Kraken pour soutenir Ari Pro" class="w-full max-w-[260px] h-64 object-contain bg-white rounded-2xl mx-auto p-3 shadow-sm border border-[#ead8ce]"><p class="text-xs text-[#5a423b] mt-4">Compte : <strong class="text-[#3b2924]">Ha_vana</strong><br><span class="text-[#6e554d]">Contribution crypto directe</span></p></article>
+                <article class="p-6 rounded-3xl glass border border-[#ead8ce] text-center"><h3 class="text-2xl font-bold text-[#3b2924] mb-2">PayPal</h3><p class="text-[#5a423b] text-sm mb-5">Utilisez l’application PayPal pour scanner le QR code.</p><img src="assets/paypal_qr.jpg" alt="QR code PayPal pour soutenir Ari Pro" class="w-full max-w-[260px] h-64 object-contain bg-white rounded-2xl mx-auto p-3 shadow-sm border border-[#ead8ce]"><p class="text-xs text-[#5a423b] mt-4">Lien / pseudo : <strong class="text-[#3b2924]">@LahatraAriel</strong><br><span class="text-[#6e554d]">paypal.me/LahatraAriel</span></p></article>
             </div>
-            <p class="text-center text-xs text-slate-500 mt-8">Vérifiez toujours le nom du destinataire et le réseau avant de confirmer une transaction. Une contribution est volontaire et non remboursable par ARI Pro.</p>
+            <p class="text-center text-xs text-[#6e554d] mt-8">Vérifiez toujours le nom du destinataire et le réseau avant de confirmer une transaction. Une contribution est volontaire et non remboursable par ARI Pro.</p>
         </div>
     </section>
 
@@ -885,12 +894,12 @@
     <section id="download" class="py-16 px-6 text-center">
         <div class="max-w-3xl mx-auto p-12 rounded-3xl btn-gradient text-white shadow-2xl relative overflow-hidden">
             <div class="relative z-10">
-                <h2 class="text-4xl font-extrabold mb-6">Prêt à passer au niveau institutionnel ?</h2>
-                <p class="text-lg mb-10 opacity-90">Analysez vos marchés et automatisez vos workflows avec une architecture contrôlable et une sécurité progressive.</p>
+                <h2 class="text-4xl font-extrabold mb-6 !text-white">Prêt à passer au niveau institutionnel ?</h2>
+                <p class="text-lg mb-10 text-white/90">Analysez vos marchés et automatisez vos workflows avec une architecture contrôlable et une sécurité progressive.</p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARIPro-1.0.65.apk"
-                       class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white text-slate-900 font-bold text-lg hover:bg-slate-100 transition-all flex items-center justify-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white text-[#3b2924] font-bold text-lg hover:bg-[#fff2ea] transition-all flex items-center justify-center gap-3 border border-[#ead8ce]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#b85f45]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
                         Android APK · 1.0.65

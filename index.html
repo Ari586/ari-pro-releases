@@ -35,6 +35,17 @@
         .phone-frame img { display:block; width:100%; height:auto; aspect-ratio:auto; object-fit:contain; object-position:center; border-radius:22px; background:#fff; box-shadow:0 14px 32px rgba(77,42,28,.15); }
         .phone-frame.mac img { aspect-ratio:9/16; object-fit:contain; object-position:center; padding:7px; }
         .phone-frame figcaption { padding:15px 6px 4px; text-align:center; }
+        .desktop-gallery,.mobile-strip { display:flex; gap:24px; overflow-x:auto; overscroll-behavior-inline:contain; scroll-snap-type:x mandatory; scrollbar-width:thin; scrollbar-color:#d98264 #f4e2d8; padding:4px 2px 18px; }
+        .desktop-gallery figure { flex:0 0 min(82vw,560px); scroll-snap-align:start; }
+        .mobile-strip .phone-frame { flex:0 0 240px; width:240px; max-width:240px; margin:0; scroll-snap-align:start; }
+        .mobile-strip .phone-frame img { max-height:500px; }
+        .gallery-accordion { margin-top:16px; padding:20px; border:1px solid #ead8ce; border-radius:24px; background:rgba(255,255,255,.72); }
+        .gallery-accordion summary { display:flex; align-items:center; justify-content:space-between; gap:16px; cursor:pointer; list-style:none; color:#3b2924; font-size:1.15rem; font-weight:800; }
+        .gallery-accordion summary::-webkit-details-marker { display:none; }
+        .gallery-accordion summary::after { content:'+'; flex:0 0 auto; display:grid; place-items:center; width:34px; height:34px; border-radius:999px; background:#fff1e9; color:#b85f45; font-size:1.35rem; }
+        .gallery-accordion[open] summary::after { content:'−'; }
+        .gallery-accordion[open] summary { margin-bottom:20px; }
+        .gallery-note { margin:-4px 0 20px; color:#745f58; font-size:.95rem; max-width:760px; }
         @media(max-width:768px){.architecture-flow{grid-template-columns:1fr}.architecture-flow div:not(:last-child)::after{content:'↓';display:block;margin:8px 0 0}}
     </style>
 </head>
@@ -53,7 +64,8 @@
             </div>
             <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
                 <a href="#all-in-one-ai" class="hover:text-white transition-colors">Assistant IA</a>
-                <a href="#mobile-trader" class="hover:text-white transition-colors">Trading Mobile & cTrader</a>
+                <a href="#mobile-trader" class="hover:text-white transition-colors">Trading Mobile</a>
+                <a href="#brokers-guide" class="hover:text-white transition-colors">Guide Courtiers</a>
                 <a href="#pwo-v6" class="hover:text-white transition-colors">Stratégie PWO v6</a>
                 <a href="#features" class="hover:text-white transition-colors">Fonctionnalités</a>
                 <a href="#screenshots" class="hover:text-white transition-colors">Captures</a>
@@ -76,7 +88,7 @@
         <div class="max-w-5xl mx-auto text-center">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-xs font-bold text-cyan-400 mb-6">
                 <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                AGENTIC AI · VERSION 1.0.64
+                AGENTIC AI · VERSION 1.0.65
             </div>
             <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
                 Votre <span class="text-gradient">Agentic AI</span> <br>pour créer, analyser et automatiser
@@ -86,19 +98,19 @@
                 utilise les bons outils et vous accompagne pour créer, rechercher, coder, organiser, analyser et automatiser.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="downloads/ARIPro-1.0.64.apk" download="ARIPro-1.0.64.apk"
+                <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARIPro-1.0.65.apk"
                    class="w-full sm:w-auto px-8 py-4 rounded-2xl btn-gradient text-white font-bold text-lg flex items-center justify-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
-                    Android APK · 1.0.64
+                    Android APK · 1.0.65
                 </a>
-                <a href="downloads/ARI-Pro-macOS-1.0.64.zip" download="ARI-Pro-macOS-1.0.64.zip"
+                <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARI-Pro-macOS-1.0.65.zip"
                    class="w-full sm:w-auto px-8 py-4 rounded-2xl glass text-white font-bold text-lg flex items-center justify-center gap-3 hover:bg-white/10 transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    macOS App · 1.0.64
+                    macOS App · 1.0.65
                 </a>
             </div>
             <div class="mt-16 relative max-w-4xl mx-auto">
@@ -111,7 +123,7 @@
     </section>
 
     <!-- How it Works -->
-    <section id="how-it-works" class="py-24 px-6 bg-slate-950/50">
+    <section id="how-it-works" class="py-16 px-6 bg-slate-950/50">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Comment fonctionne un agentic AI ?</h2>
@@ -150,7 +162,7 @@
     </section>
 
     <!-- Assistant IA Tout-en-Un -->
-    <section id="all-in-one-ai" class="py-24 px-6 bg-slate-950/60 border-y border-white/5">
+    <section id="all-in-one-ai" class="py-16 px-6 bg-slate-950/60 border-y border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">AGENTIC AI MULTI-CAPACITÉS</span>
@@ -241,7 +253,7 @@
     </section>
 
     <!-- Features -->
-    <section id="features" class="py-24 px-6">
+    <section id="features" class="py-16 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Ce que ARI Pro peut faire</h2>
@@ -296,7 +308,7 @@
     </section>
 
     <!-- Guide -->
-    <section id="guide" class="py-24 px-6 bg-slate-950/50">
+    <section id="guide" class="py-16 px-6 bg-slate-950/50">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Guide de démarrage</h2>
@@ -335,8 +347,212 @@
         </div>
     </section>
 
+    <!-- Guide de Connexion des Courtiers Pas à Pas -->
+    <section id="brokers-guide" class="py-24 px-6 bg-slate-950/70 border-b border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">CONFIGURATION DÉTAILLÉE</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Guide de Connexion Courtier par Courtier</h2>
+                <p class="text-slate-400 max-w-3xl mx-auto">
+                    Dans l'application ARI Pro, rendez-vous dans l'écran <strong>Trading › Courtier › Changer de courtier</strong>. Voici les données exactes et étapes pour chaque plateforme.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1. cTrader Cloud & Open API -->
+                <div class="p-8 rounded-3xl glass border-2 border-cyan-500/40 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold">100% SANS PC · CLOUD GRATUIT</span>
+                            <span class="text-xs text-slate-400">cTrader</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">cTrader (Cloud & Open API)</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Exécution directe dans le cloud Spotware. Zéro PC allumé, zéro frais d'abonnement.
+                        </p>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-cyan-400 font-bold block mb-1">1. Champ : Numéro de compte cTrader</span>
+                                <span class="text-slate-300">Votre <strong>Account ID</strong> cTrader (ex. <code>1234567</code>, visible sous votre compte dans cTrader).</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-cyan-400 font-bold block mb-1">2. Champ : Jeton Spotware Open API</span>
+                                <span class="text-slate-300">Votre <strong>Access Token</strong> officiel généré gratuitement sur <a href="https://openapi.spotware.com" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">openapi.spotware.com</a>. Valable à vie.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-cyan-400 font-bold block mb-1">3. Champ : URL API ou Webhook (Optionnel)</span>
+                                <span class="text-slate-300">Laissez vide pour l'API officielle (<code>https://api.spotware.com</code>) ou collez l'URL locale de votre cBot Cloud.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <span class="text-[11px] text-slate-400 block mb-2"><strong>Option Cloud sans téléphone ouvert :</strong> Importez directement <code>AriProCloudBot.cs</code> dans cTrader Web (app.ctrader.com › Automate).</span>
+                        <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs" class="w-full inline-block px-4 py-2.5 rounded-xl btn-gradient text-white font-bold text-xs text-center">Télécharger AriProCloudBot.cs</a>
+                    </div>
+                </div>
+
+                <!-- 2. MetaTrader 5 sur VPS -->
+                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 text-xs font-bold">VPS WINDOWS RECOMMANDÉ</span>
+                            <span class="text-xs text-slate-400">MT5</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">MetaTrader 5 sur VPS (AriRelay)</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Pour faire tourner MetaTrader 5 jour et nuit sans laisser votre ordinateur allumé.
+                        </p>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-violet-400 font-bold block mb-1">1. Champ : Adresse du VPS</span>
+                                <span class="text-slate-300">L'adresse IP de votre VPS Windows ou nom de domaine (ex. <code>vps.domaine.com</code> ou <code>51.15.20.12</code>).</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-violet-400 font-bold block mb-1">2. Champ : Code VPS (AriRelay)</span>
+                                <span class="text-slate-300">Le code secret temporaire à 6 chiffres affiché par <code>AriRelay.py</code> au démarrage sur le VPS.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-violet-400 font-bold block mb-1">3. Installation sur MT5</span>
+                                <span class="text-slate-300">Copiez <code>AriBridge-1.21.ex5</code> dans <code>MQL5/Experts</code>, cochez <strong>Algo Trading</strong> et glissez l'EA sur un graphique en mode Hedging.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <a href="#vps-downloads" class="w-full inline-block px-4 py-2.5 rounded-xl glass text-cyan-300 font-bold text-xs text-center hover:bg-white/10">Télécharger le Pack VPS & WikiFX ↓</a>
+                    </div>
+                </div>
+
+                <!-- 3. MetaTrader 5 Local sur ce PC -->
+                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold">PC WINDOWS LOCAL</span>
+                            <span class="text-xs text-slate-400">MT5 Local</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">MetaTrader 5 sur ce PC</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Connexion directe quand MetaTrader 5 est ouvert sur le même ordinateur Windows qu'ARI Pro.
+                        </p>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-emerald-400 font-bold block mb-1">1. Champ : Serveur courtier</span>
+                                <span class="text-slate-300">Le nom exact de votre serveur (ex. <code>Exness-MT5Real8</code>, <code>ICMarketsSC-Live</code>).</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-emerald-400 font-bold block mb-1">2. Champ : Identifiant (Login)</span>
+                                <span class="text-slate-300">Votre numéro de compte MetaTrader 5.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-emerald-400 font-bold block mb-1">3. Champ : Mot de passe</span>
+                                <span class="text-slate-300">Votre mot de passe de trading (chiffré et stocké localement sur votre ordinateur).</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <span class="text-[11px] text-slate-400 block text-center">AriBridge communique via le port local sécurisé <code>8765</code>.</span>
+                    </div>
+                </div>
+
+                <!-- 4. MetaTrader 4 & 5 par MetaAPI -->
+                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold">MT4 / MT5 CLOUD</span>
+                            <span class="text-xs text-slate-400">MetaAPI</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">MetaTrader par MetaAPI</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Permet de connecter un compte MT4 ou MT5 directement depuis un smartphone sans aucun logiciel installé.
+                        </p>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-amber-400 font-bold block mb-1">1. Sélecteur : Plateforme</span>
+                                <span class="text-slate-300">Basculez entre <strong>MetaTrader 4</strong> ou <strong>MetaTrader 5</strong> selon votre compte.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-amber-400 font-bold block mb-1">2. Champ : Serveur courtier</span>
+                                <span class="text-slate-300">Tapez le nom de votre courtier pour rechercher automatiquement le serveur dans l'annuaire.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-amber-400 font-bold block mb-1">3. Champs : Identifiant & Mot de passe</span>
+                                <span class="text-slate-300">Vos identifiants de compte MT4/MT5.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-amber-400 font-bold block mb-1">4. Champ : Jeton MetaAPI</span>
+                                <span class="text-slate-300">Votre token créé sur <code>app.metaapi.cloud</code>.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <span class="text-[11px] text-slate-400 block text-center">Service tiers MetaAPI requis.</span>
+                    </div>
+                </div>
+
+                <!-- 5. Deriv -->
+                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 text-xs font-bold">SYNTHÉTIQUES & FOREX</span>
+                            <span class="text-xs text-slate-400">Deriv</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Deriv (API Directe)</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Connexion directe pour trader les indices synthétiques (Crash, Boom, Volatility) et les devises.
+                        </p>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-rose-400 font-bold block mb-1">1. Champ : Jeton API Deriv</span>
+                                <span class="text-slate-300">Votre token API généré sur <code>developers.deriv.com</code> avec la permission <strong>« trade »</strong> cochée.</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-rose-400 font-bold block mb-1">2. Champ : App ID Deriv</span>
+                                <span class="text-slate-300">L'identifiant de votre application PAT enregistrée sur votre dashboard Deriv.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <span class="text-[11px] text-slate-400 block text-center">Commencez avec l'option Démo avant d'activer le compte réel.</span>
+                    </div>
+                </div>
+
+                <!-- 6. Capital.com & Démo ARI -->
+                <div class="p-8 rounded-3xl glass flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 text-xs font-bold">CFD ACTIONS & SIMULATION</span>
+                            <span class="text-xs text-slate-400">Capital & Démo</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Capital.com & Démo ARI</h3>
+                        <p class="text-slate-400 text-xs leading-relaxed mb-6">
+                            Accédez aux CFD actions/indices régulés ou entraînez-vous en mode sans risque.
+                        </p>
+
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/60 border border-white/5">
+                                <span class="text-sky-400 font-bold block mb-1">Pour Capital.com :</span>
+                                <span class="text-slate-300">Saisissez votre <strong>E-mail</strong>, votre <strong>Mot de passe</strong> et votre <strong>Clé API</strong> (générée dans les réglages API de Capital.com).</span>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30">
+                                <span class="text-emerald-400 font-bold block mb-1">Pour la Démo ARI (Zéro risque) :</span>
+                                <span class="text-slate-300"><strong>Zéro donnée requise !</strong> Cliquez simplement sur « Utiliser la démo et tester ». Vous tradez instantanément avec 10 000 $ fictifs sur les vrais cours en direct.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10">
+                        <span class="text-[11px] text-emerald-400 block font-bold text-center">✓ 100% sans risque en mode Démo ARI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Trading sur Smartphone sans PC & cTrader -->
-    <section id="mobile-trader" class="py-24 px-6 bg-slate-900/40">
+    <section id="mobile-trader" class="py-16 px-6 bg-slate-900/40">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
                 <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">PAS DE PC ? ZÉRO SERVEUR À PAYER</span>
@@ -423,7 +639,7 @@
                         </div>
                     </div>
                     <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-                        <a href="downloads/ARIPro-1.0.64.apk" download="ARIPro-1.0.64.apk" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm text-center flex-1">
+                        <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARIPro-1.0.65.apk" class="px-6 py-3 rounded-2xl btn-gradient text-white font-bold text-sm text-center flex-1">
                             Télécharger ARI Pro Android
                         </a>
                         <a href="https://openapi.spotware.com" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl glass text-white font-bold text-sm text-center">
@@ -449,7 +665,7 @@
     </section>
 
     <!-- Stratégie PWO SMC & CRT v6 Pro -->
-    <section id="pwo-v6" class="py-24 px-6 bg-slate-950/60 border-t border-white/5">
+    <section id="pwo-v6" class="py-16 px-6 bg-slate-950/60 border-t border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
                 <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">PINE SCRIPT V6 OFFICIEL & PYTHON NATIF</span>
@@ -510,10 +726,10 @@
     </section>
 
     <!-- Captures réelles & intégrations -->
-    <section id="screenshots" class="py-24 px-6">
+    <section id="screenshots" class="py-16 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">ARI PRO EN ACTION</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Voyez ARI Pro avant de l’installer</h2></div>
-            <div class="grid md:grid-cols-2 gap-6">
+            <div class="desktop-gallery" aria-label="Galerie ARI Pro">
                 <figure class="rounded-3xl overflow-hidden glass"><img src="assets/screenshots/real-mac-markets.png" alt="Capture originale de l’écran Marchés ARI Pro avec Polymarket et TradingView" class="w-full h-72 object-cover object-top"><figcaption class="p-5"><strong>Marchés multi-actifs</strong><br><span class="text-slate-400 text-sm">Polymarket, TradingView, or, pétrole, indices, crypto et devises dans une même vue.</span></figcaption></figure>
                 <figure class="rounded-3xl overflow-hidden glass"><img src="assets/screenshots/real-mac-bookmap.png" alt="Capture originale Bookmap natif avec Heatmap et CVD dans ARI Pro" class="w-full h-72 object-cover object-top"><figcaption class="p-5"><strong>Bookmap natif · Heatmap & DOM</strong><br><span class="text-slate-400 text-sm">Liquidité, CVD, absorptions et pression acheteurs/vendeurs pour compléter l’analyse.</span></figcaption></figure>
                 <figure class="rounded-3xl overflow-hidden glass"><img src="assets/screenshots/real-mac-tradingview.png" alt="Capture originale du widget TradingView officiel dans ARI Pro" class="w-full h-72 object-cover object-top"><figcaption class="p-5"><strong>TradingView officiel intégré</strong><br><span class="text-slate-400 text-sm">Graphique temps réel, indicateurs et bouton « Analyser les données » dans le workflow ARI.</span></figcaption></figure>
@@ -535,33 +751,40 @@
     </section>
 
     <!-- App mobile / vues compactes -->
-    <section id="mobile-app" class="py-24 px-6 bg-slate-950/50">
+    <section id="mobile-app" class="py-16 px-6 bg-slate-950/50">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">EXPÉRIENCE MOBILE</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Les écrans de l’application</h2></div>
-            <h3 class="text-2xl font-bold text-white mb-6">Agent, marchés et exécution</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+            <details class="gallery-accordion" open>
+                <summary>Agent, marchés et exécution</summary>
+                <div class="mobile-strip" aria-label="Agent, marchés et exécution">
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-agent.jpeg" alt="Capture originale Android de l’agent ARI Pro connecté au VPS" loading="lazy"><figcaption><strong>01 · Agent ARI</strong><br><span class="text-slate-400 text-xs">Agent, Chat, Code et MT5 connecté</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-markets.jpeg" alt="Capture originale Android de l’écran Marchés ARI Pro" loading="lazy"><figcaption><strong>02 · Marchés</strong><br><span class="text-slate-400 text-xs">Vue multi-actifs et contexte mondial</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-robot.jpeg" alt="Capture originale Android du robot et courtier MetaTrader 5" loading="lazy"><figcaption><strong>03 · Robot & courtier</strong><br><span class="text-slate-400 text-xs">VPS, connexion et arrêt d’urgence</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-global-context.jpeg" alt="Capture originale Android du contexte mondial et de son impact sur les actifs" loading="lazy"><figcaption><strong>04 · Contexte mondial</strong><br><span class="text-slate-400 text-xs">Or, pétrole, dollar, actions et volatilité</span></figcaption></figure>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-14 mb-6">Trading, graphique natif, Bookmap et Havana-SMC</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+                </div>
+            </details>
+            <details class="gallery-accordion">
+                <summary>Trading, graphique natif, Bookmap et Havana-SMC</summary>
+                <div class="mobile-strip" aria-label="Trading, graphique natif, Bookmap et Havana-SMC">
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-bookmap.jpeg" alt="Capture originale Android du graphique natif Oracle dans ARI Pro" loading="lazy"><figcaption><strong>05 · Graphique natif</strong><br><span class="text-slate-400 text-xs">Oracle, bougies, zones et projections</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-bookmap-dark.jpeg" alt="Capture originale Android de Bookmap natif dans ARI Pro" loading="lazy"><figcaption><strong>06 · Bookmap natif</strong><br><span class="text-slate-400 text-xs">Heatmap, CVD et absorptions</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-tradingview.jpeg" alt="Capture originale Android de TradingView dans ARI Pro" loading="lazy"><figcaption><strong>07 · TradingView</strong><br><span class="text-slate-400 text-xs">Graphique et bouton d’analyse</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-havana-chart.jpeg" alt="Capture originale Android de l’analyse Havana-SMC sur TradingView" loading="lazy"><figcaption><strong>08 · Havana sur TradingView</strong><br><span class="text-slate-400 text-xs">Indicateurs, zones SMC et niveaux d’intervention</span></figcaption></figure>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-14 mb-6">Stratégies, analyse directe et alertes</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+                </div>
+            </details>
+            <details class="gallery-accordion">
+                <summary>Stratégies, analyse directe et alertes</summary>
+                <div class="mobile-strip" aria-label="Stratégies, analyse directe et alertes">
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-strategies.jpeg" alt="Capture originale Android de l’écran des stratégies ARI Pro" loading="lazy"><figcaption><strong>09 · Stratégies</strong><br><span class="text-slate-400 text-xs">Stratégies actives et recommandations</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-strategy-builder.jpeg" alt="Capture originale Android de l’analyse directe TradingView par Havana-SMC" loading="lazy"><figcaption><strong>10 · Analyse directe TradingView</strong><br><span class="text-slate-400 text-xs">Havana-SMC et autres stratégies lisent le graphique, les indicateurs, les zones et le plan d’action</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-strategy-list.jpeg" alt="Capture originale Android du laboratoire de stratégies ARI Pro" loading="lazy"><figcaption><strong>11 · Votre stratégie personnalisée</strong><br><span class="text-slate-400 text-xs">Créez votre stratégie, choisissez vos indicateurs, activez-la et recevez vos propres alertes</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-alerts.jpeg" alt="Capture originale Android des alertes ARI Pro avec envoi de signal vers MT4 et MT5" loading="lazy"><figcaption><strong>12 · Alertes → MT4 / MT5</strong><br><span class="text-slate-400 text-xs">Envoi direct des signaux vers AriBridge et l’EA, selon votre configuration VPS</span></figcaption></figure>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-14 mb-6">Tableau de bord : stratégies pro et institutionnelles</h3>
-            <p class="text-slate-400 max-w-3xl mb-8">Le tableau de bord ARI Pro regroupe plusieurs familles de stratégies, indépendamment de Havana-SMC. Chaque carte affiche l’état du signal, les conditions détectées, la possibilité de créer une alerte et, si autorisé, l’envoi du signal au robot.</p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+                </div>
+            </details>
+            <details class="gallery-accordion">
+                <summary>Tableau de bord : stratégies pro et institutionnelles</summary>
+                <p class="gallery-note">Le tableau de bord regroupe les stratégies pro et institutionnelles, leur état, leurs alertes et l’envoi des signaux autorisés au robot.</p>
+                <div class="mobile-strip" aria-label="Stratégies pro et institutionnelles">
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-dashboard-strategies-pro.jpeg" alt="Capture originale Android du tableau de bord avec quatre stratégies pro" loading="lazy"><figcaption><strong>A · Stratégies pro</strong><br><span class="text-slate-400 text-xs">EMA Pullback, RSI Divergence, VWAP Intraday, Bollinger & ATR</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-dashboard-strategies-institutional.jpeg" alt="Capture originale Android des stratégies institutionnelles" loading="lazy"><figcaption><strong>B · Stratégies institutionnelles</strong><br><span class="text-slate-400 text-xs">ICT Killzones, bandes VWAP, cassure du POC, Order Flow & Delta</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-dashboard-signal-mt5.jpeg" alt="Capture originale Android d’un signal de vente prêt à être envoyé sur MT5" loading="lazy"><figcaption><strong>C · Signal prêt pour MT5</strong><br><span class="text-slate-400 text-xs">Entrée, stop, objectif, R:R et bouton « Envoyer sur MT5 »</span></figcaption></figure>
@@ -569,19 +792,22 @@
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-dashboard-style-entries.jpeg" alt="Capture originale Android des entrées par style" loading="lazy"><figcaption><strong>E · Entrées par style</strong><br><span class="text-slate-400 text-xs">Scalping, intraday, swing et sniper avec zones, stops et objectifs</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-dashboard-checklist.jpeg" alt="Capture originale Android de la checklist de validation d’une stratégie" loading="lazy"><figcaption><strong>F · Checklist de confirmation</strong><br><span class="text-slate-400 text-xs">Tendance, momentum, volume, volatilité, structure et confirmation</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-dashboard-geopolitics.jpeg" alt="Capture originale Android de la surveillance géopolitique et macro" loading="lazy"><figcaption><strong>G · Surveillance macro</strong><br><span class="text-slate-400 text-xs">Tensions géopolitiques, pétrole, dollar, actions et volatilité</span></figcaption></figure>
-            </div>
-            <h3 class="text-2xl font-bold text-white mt-14 mb-6">Analyse, réglages et personnalisation</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+                </div>
+            </details>
+            <details class="gallery-accordion">
+                <summary>Analyse, réglages et personnalisation</summary>
+                <div class="mobile-strip" aria-label="Analyse, réglages et personnalisation">
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-havana.jpeg" alt="Capture originale Android de l’analyse Havana SMC" loading="lazy"><figcaption><strong>13 · Plan Havana-SMC</strong><br><span class="text-slate-400 text-xs">Plan, zones et anti-FOMO</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-journal.jpeg" alt="Capture originale Android du journal de trading ARI Pro" loading="lazy"><figcaption><strong>14 · Journal</strong><br><span class="text-slate-400 text-xs">Positions, résultats et suivi</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-polymarket.jpeg" alt="Capture originale Android de l’analyseur Polymarket ARI Pro" loading="lazy"><figcaption><strong>15 · Polymarket</strong><br><span class="text-slate-400 text-xs">Probabilités et marchés événementiels</span></figcaption></figure>
                 <figure class="phone-frame"><img src="assets/screenshots/real-mobile-settings.jpeg" alt="Capture originale Android des réglages ARI Pro avec apparence, langue, notifications, passerelle MT5 et donation" loading="lazy"><figcaption><strong>16 · Réglages ARI Pro</strong><br><span class="text-slate-400 text-xs">Thème, langue, notifications, passerelle MT5, paramètres MCP et donation</span></figcaption></figure>
-            </div>
+                </div>
+            </details>
         </div>
     </section>
 
     <!-- Trading A → Z -->
-    <section id="trading-az" class="py-24 px-6 bg-slate-950/50">
+    <section id="trading-az" class="py-16 px-6 bg-slate-950/50">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
                 <span class="text-xs font-bold tracking-[0.25em] text-cyan-400">GUIDE COMPLET</span>
@@ -602,7 +828,7 @@
     </section>
 
     <!-- Architecture -->
-    <section id="architecture" class="py-24 px-6">
+    <section id="architecture" class="py-16 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">ARCHITECTURE</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Une chaîne lisible et contrôlable</h2><p class="text-slate-400 max-w-2xl mx-auto">Chaque composant a une mission précise et peut être testé séparément.</p></div>
             <div class="architecture-flow"><div>ARI PRO</div><div>ARI BRIDGE</div><div>PYTHON</div><div>MT4 / MT5</div><div>EA · COURTIER</div></div>
@@ -615,7 +841,7 @@
     </section>
 
     <!-- Documentation utilisateur -->
-    <section id="documentation" class="py-24 px-6 bg-slate-950/50">
+    <section id="documentation" class="py-16 px-6 bg-slate-950/50">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">DOCUMENTATION UTILISATEUR</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Installez et maintenez votre VPS</h2></div>
             <div class="grid md:grid-cols-3 gap-6">
@@ -624,13 +850,13 @@
                 <div class="p-7 rounded-3xl glass"><span class="text-cyan-400 font-bold">03 · Surveiller</span><h3 class="text-xl font-bold text-white mt-3 mb-2">Continuité sans interruption</h3><p class="text-slate-400">Utilisez le démarrage automatique, contrôlez le journal Experts, la connexion, Algo Trading et les positions.</p></div>
             </div>
             <div class="mt-8 p-7 rounded-3xl glass"><span class="text-cyan-400 font-bold">STRATÉGIES & ALERTES</span><h3 class="text-2xl font-bold text-white mt-3 mb-3">Construisez votre propre système</h3><p class="text-slate-400">Dans ARI Pro, vous pouvez partir d’une stratégie vierge ou modifier une stratégie existante, ajouter des conditions (prix, EMA, RSI, MACD, VWAP, volume, Order Flow…), définir le sens achat/vente, le stop et l’objectif, puis lancer un test. Une fois validée, la stratégie peut produire des alertes récurrentes sur plusieurs actifs. Vous choisissez ensuite si l’alerte reste une notification, demande une confirmation ou est transmise au webhook/EA.</p></div>
-            <div class="mt-8 p-7 rounded-3xl glass"><h3 class="text-2xl font-bold text-white mb-3">Téléchargements utiles</h3><p class="text-slate-400 mb-5">Ces fichiers sont préparés pour l’installation utilisateur. Aucun historique de conversation, aucune mémoire personnelle et aucun cache privé ne sont inclus.</p><div class="flex flex-col sm:flex-row flex-wrap gap-3"><a href="downloads/ARI-Pro-VPS-1.21.zip" download="ARI-Pro-VPS-1.21.zip" class="px-5 py-3 rounded-2xl btn-gradient text-white font-bold text-sm">Télécharger le pack VPS opérationnel</a><a href="downloads/ARI-Pro-Bridge-Python-1.0.64.zip" download="ARI-Pro-Bridge-Python-1.0.64.zip" class="px-5 py-3 rounded-2xl glass text-sm font-bold">Bridge + Python</a><a href="downloads/VPS-README-UTILISATION.txt" download="VPS-README-UTILISATION.txt" class="px-5 py-3 rounded-2xl glass text-sm font-bold">Guide de continuité</a></div></div>
+            <div class="mt-8 p-7 rounded-3xl glass"><h3 class="text-2xl font-bold text-white mb-3">Téléchargements utiles</h3><p class="text-slate-400 mb-5">Ces fichiers sont préparés pour l’installation utilisateur. Aucun historique de conversation, aucune mémoire personnelle et aucun cache privé ne sont inclus.</p><div class="flex flex-col sm:flex-row flex-wrap gap-3"><a href="downloads/ARI-Pro-VPS-1.21.zip" download="ARI-Pro-VPS-1.21.zip" class="px-5 py-3 rounded-2xl btn-gradient text-white font-bold text-sm">Télécharger le pack VPS opérationnel</a><a href="downloads/ARI-Pro-Bridge-Python-1.0.65.zip" download="ARI-Pro-Bridge-Python-1.0.65.zip" class="px-5 py-3 rounded-2xl glass text-sm font-bold">Bridge + Python</a><a href="downloads/VPS-README-UTILISATION.txt" download="VPS-README-UTILISATION.txt" class="px-5 py-3 rounded-2xl glass text-sm font-bold">Guide de continuité</a></div></div>
             <div class="mt-8 p-6 rounded-3xl bg-red-500/20 border border-red-300/40"><p class="text-slate-400"><strong class="text-red-400">Sécurité :</strong> ne partagez jamais un code AriRelay, un mot de passe VPS, une clé API ou un identifiant de courtier. Testez toujours en démo avant le réel.</p></div>
         </div>
     </section>
 
     <!-- Pack VPS -->
-    <section id="vps-downloads" class="py-24 px-6">
+    <section id="vps-downloads" class="py-16 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">VPS GRATUIT WIKIFX</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">WikiFX + AriRelay + MetaTrader 5</h2><p class="text-slate-400 max-w-3xl mx-auto">Demandez votre VPS gratuit depuis WikiFX, puis installez le pack ARI Pro sur le serveur Windows pour garder MetaTrader et l’EA actifs.</p><a href="https://vps.wikifx.com/fr/vps.html" target="_blank" rel="noopener noreferrer" class="inline-flex mt-6 px-6 py-3 rounded-2xl btn-gradient text-white font-bold">Ouvrir le VPS gratuit WikiFX ↗</a></div>
             <div class="grid md:grid-cols-2 gap-6">
@@ -643,7 +869,7 @@
     </section>
 
     <!-- Buy me a coffee -->
-    <section id="support" class="py-24 px-6 bg-slate-950/50">
+    <section id="support" class="py-16 px-6 bg-slate-950/50">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14"><span class="text-xs font-bold tracking-[0.25em] text-cyan-400">BUY ME A COFFEE</span><h2 class="text-3xl md:text-5xl font-extrabold text-white mt-4 mb-4">Soutenir le projet ARI Pro</h2><p class="text-slate-400 max-w-2xl mx-auto">Si ARI Pro vous aide, vous pouvez soutenir son développement avec une contribution libre via Binance, Kraken ou PayPal.</p></div>
             <div class="grid md:grid-cols-3 gap-6">
@@ -656,25 +882,25 @@
     </section>
 
     <!-- CTA / Download -->
-    <section id="download" class="py-24 px-6 text-center">
+    <section id="download" class="py-16 px-6 text-center">
         <div class="max-w-3xl mx-auto p-12 rounded-3xl btn-gradient text-white shadow-2xl relative overflow-hidden">
             <div class="relative z-10">
                 <h2 class="text-4xl font-extrabold mb-6">Prêt à passer au niveau institutionnel ?</h2>
                 <p class="text-lg mb-10 opacity-90">Analysez vos marchés et automatisez vos workflows avec une architecture contrôlable et une sécurité progressive.</p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="downloads/ARIPro-1.0.64.apk" download="ARIPro-1.0.64.apk"
+                    <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARIPro-1.0.65.apk"
                        class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white text-slate-900 font-bold text-lg hover:bg-slate-100 transition-all flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
-                        Android APK · 1.0.64
+                        Android APK · 1.0.65
                     </a>
-                    <a href="downloads/ARI-Pro-macOS-1.0.64.zip" download="ARI-Pro-macOS-1.0.64.zip"
+                    <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.65/ARI-Pro-macOS-1.0.65.zip"
                        class="w-full sm:w-auto px-8 py-4 rounded-2xl glass text-white font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        Télécharger macOS 1.0.64
+                        Télécharger macOS 1.0.65
                     </a>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">

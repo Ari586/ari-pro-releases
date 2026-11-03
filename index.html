@@ -122,6 +122,20 @@
                     macOS App · 1.0.66
                 </a>
             </div>
+            <!-- Live Community & Usage Stats (Solution 2 - 100% Gratuit) -->
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-slate-700/60 text-slate-300 backdrop-blur-md shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span><strong id="stat-installs" class="text-white font-bold">260+</strong> installations</span>
+                </div>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-slate-700/60 text-slate-300 backdrop-blur-md shadow-sm">
+                    <span class="text-[#b85f45]">📥</span>
+                    <span><strong id="stat-downloads" class="text-white font-bold">635</strong> téléchargements</span>
+                </div>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-slate-700/60 text-slate-300 backdrop-blur-md shadow-sm">
+                    <img src="https://hits.sh/github.com/Ari586/ari-pro-app-active.svg?label=utilisateurs%20actifs&color=b85f45" alt="Utilisateurs actifs" class="h-4 rounded">
+                </div>
+            </div>
             <div class="mt-16 relative max-w-4xl mx-auto">
                 <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-violet-600 rounded-3xl blur opacity-30"></div>
                 <div class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
@@ -944,5 +958,37 @@
         </div>
     </footer>
 
+    <!-- Script de mise à jour dynamique des statistiques GitHub (Solution 2 - 100% gratuit) -->
+    <script>
+        (async function fetchLiveStats() {
+            try {
+                const res = await fetch('https://api.github.com/repos/Ari586/ari-pro-releases/releases?per_page=100');
+                if (!res.ok) return;
+                const releases = await res.json();
+                let installs = 0;
+                let totalDownloads = 0;
+                releases.forEach(r => {
+                    (r.assets || []).forEach(a => {
+                        const count = a.download_count || 0;
+                        totalDownloads += count;
+                        const name = (a.name || '').toLowerCase();
+                        if (name.endsWith('.apk') || name.endsWith('.zip') || name.endsWith('.dmg')) {
+                            installs += count;
+                        }
+                    });
+                });
+                if (installs > 0) {
+                    const elInstalls = document.getElementById('stat-installs');
+                    if (elInstalls) elInstalls.textContent = installs.toLocaleString('fr-FR') + '+';
+                }
+                if (totalDownloads > 0) {
+                    const elDownloads = document.getElementById('stat-downloads');
+                    if (elDownloads) elDownloads.textContent = totalDownloads.toLocaleString('fr-FR');
+                }
+            } catch (e) {
+                // Silencieux, conserve les valeurs par défaut
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -129,10 +129,52 @@
                     Windows (.exe) · 1.0.71
                 </a>
             </div>
-            <div class="mt-4 px-4 py-2.5 rounded-xl bg-slate-900/70 border border-slate-700/60 max-w-2xl mx-auto text-xs text-slate-300 flex flex-col sm:flex-row items-center justify-center gap-x-4 gap-y-2 backdrop-blur-md">
-                <span class="flex items-center gap-1.5"><strong class="text-amber-400">💡 Android :</strong> Si Play Protect s'affiche, cliquez sur <em>« Plus de détails » &gt; « Installer quand même »</em>.</span>
-                <span class="hidden sm:inline text-slate-600">|</span>
-                <span><strong>Windows :</strong> Disponible en <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARIPro-Setup-1.0.71.exe" class="text-cyan-400 hover:text-white underline font-semibold">.exe</a> ou <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARI-Pro-Windows-1.0.71.zip" class="text-cyan-400 hover:text-white underline font-semibold">.zip portable (70 Mo)</a></span>
+            <!-- Guide d'installation Android & Formats Windows -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto text-left">
+                <!-- Carte Conseil Android -->
+                <div class="p-4 rounded-2xl glass border border-[#ead8ce] shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-[#fff0e6] flex items-center justify-center text-[#b85f45]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </span>
+                            <span class="text-xs uppercase font-extrabold tracking-wider text-[#b85f45]">Android · Guide d'installation</span>
+                        </div>
+                        <p class="text-xs text-[#6e554d] leading-relaxed">
+                            Si Google Play Protect affiche un avertissement, appuyez sur <strong class="text-[#3b2924] font-semibold">« Plus de détails »</strong> puis sur <strong class="text-[#b85f45] font-semibold">« Installer quand même »</strong>.<br>
+                            <span class="text-[11px] opacity-80 mt-1 block">💡 Pensez à désinstaller toute version précédente d'ARI Pro avant l'installation.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Carte Formats Windows -->
+                <div class="p-4 rounded-2xl glass border border-[#ead8ce] shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-7 h-7 rounded-lg bg-[#fff0e6] flex items-center justify-center text-[#b85f45]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                                </svg>
+                            </span>
+                            <span class="text-xs uppercase font-extrabold tracking-wider text-[#b85f45]">Windows · 2 formats au choix</span>
+                        </div>
+                        <p class="text-xs text-[#6e554d] mb-2.5">Choisissez selon votre préférence :</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARIPro-Setup-1.0.71.exe"
+                               class="px-2.5 py-2 rounded-xl bg-[#fff2ea] hover:bg-[#ffe6d8] border border-[#ead8ce] text-xs font-bold text-[#b85f45] text-center transition-all flex flex-col items-center justify-center shadow-xs">
+                                <span>📦 Installeur .exe</span>
+                                <span class="text-[10px] opacity-75 font-normal">(44 Mo · Recommandé)</span>
+                            </a>
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARI-Pro-Windows-1.0.71.zip"
+                               class="px-2.5 py-2 rounded-xl bg-[#fff2ea] hover:bg-[#ffe6d8] border border-[#ead8ce] text-xs font-bold text-[#b85f45] text-center transition-all flex flex-col items-center justify-center shadow-xs">
+                                <span>⚡ Portable .zip</span>
+                                <span class="text-[10px] opacity-75 font-normal">(70 Mo · Sans install)</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- Live Community & Usage Stats (Solution 2 - 100% Gratuit) -->
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs">
@@ -945,10 +987,44 @@
                         Télécharger Windows (.exe) 1.0.71
                     </a>
                 </div>
-                <div class="mt-4 px-4 py-2.5 rounded-xl bg-black/20 border border-white/20 max-w-xl mx-auto text-xs text-white flex flex-col sm:flex-row items-center justify-center gap-x-4 gap-y-1.5 backdrop-blur-md">
-                    <span>💡 <strong>Android :</strong> Cliquez sur <em>« Plus de détails » &gt; « Installer quand même »</em> si Play Protect s'affiche.</span>
-                    <span class="hidden sm:inline opacity-60">|</span>
-                    <span><strong>Windows :</strong> <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARIPro-Setup-1.0.71.exe" class="underline font-bold text-white hover:text-amber-200">.exe</a> ou <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARI-Pro-Windows-1.0.71.zip" class="underline font-bold text-white hover:text-amber-200">.zip (70 Mo)</a></span>
+                <!-- Guide d'installation Android & Formats Windows (CTA) -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3 text-left max-w-2xl mx-auto">
+                    <!-- Carte Android CTA -->
+                    <div class="p-3.5 rounded-2xl bg-white/15 border border-white/20 backdrop-blur-md">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </span>
+                            <span class="text-[11px] uppercase font-bold tracking-wider text-white">Android · Play Protect</span>
+                        </div>
+                        <p class="text-xs text-white/95 leading-relaxed">
+                            Si Play Protect bloque : cliquez sur <strong>« Plus de détails »</strong> puis <strong>« Installer quand même »</strong>.
+                        </p>
+                    </div>
+
+                    <!-- Carte Windows CTA -->
+                    <div class="p-3.5 rounded-2xl bg-white/15 border border-white/20 backdrop-blur-md">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                                </svg>
+                            </span>
+                            <span class="text-[11px] uppercase font-bold tracking-wider text-white">Windows · Formats</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARIPro-Setup-1.0.71.exe"
+                               class="flex-1 px-2.5 py-1.5 rounded-xl bg-white/25 hover:bg-white/35 border border-white/20 text-xs font-bold text-white text-center transition-all">
+                                .exe (44 Mo)
+                            </a>
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.71/ARI-Pro-Windows-1.0.71.zip"
+                               class="flex-1 px-2.5 py-1.5 rounded-xl bg-white/25 hover:bg-white/35 border border-white/20 text-xs font-bold text-white text-center transition-all">
+                                .zip portable (70 Mo)
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
                     <a href="downloads/AriProCloudBot.cs" download="AriProCloudBot.cs"

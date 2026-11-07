@@ -131,22 +131,42 @@
             </div>
             <!-- Guide d'installation Android & Formats Windows -->
             <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto text-left">
-                <!-- Carte Conseil Android -->
+                <!-- Carte Formats & Architectures Android -->
                 <div class="p-4 rounded-2xl glass border border-[#ead8ce] shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-2 mb-2">
                             <span class="w-7 h-7 rounded-lg bg-[#fff0e6] flex items-center justify-center text-[#b85f45]">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
                             </span>
-                            <span class="text-xs uppercase font-extrabold tracking-wider text-[#b85f45]">Android · Guide d'installation</span>
+                            <span class="text-xs uppercase font-extrabold tracking-wider text-[#b85f45]">Android · Formats & Architectures</span>
                         </div>
-                        <p class="text-xs text-[#6e554d] leading-relaxed">
-                            Si Google Play Protect affiche un avertissement, appuyez sur <strong class="text-[#3b2924] font-semibold">« Plus de détails »</strong> puis sur <strong class="text-[#b85f45] font-semibold">« Installer quand même »</strong>.<br>
-                            <span class="text-[11px] opacity-80 mt-1 block">💡 Pensez à désinstaller toute version précédente d'ARI Pro avant l'installation.</span>
-                        </p>
+                        <p class="text-xs text-[#6e554d] mb-2.5">Choisissez selon votre appareil :</p>
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81-arm64-v8a.apk"
+                               class="px-2.5 py-2 rounded-xl bg-[#fff2ea] hover:bg-[#ffe6d8] border border-[#ead8ce] text-xs font-bold text-[#b85f45] text-center transition-all flex flex-col items-center justify-center shadow-xs">
+                                <span>⚡ ARM64-v8a</span>
+                                <span class="text-[10px] opacity-75 font-normal">(36 Mo · Recommandé)</span>
+                            </a>
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81.apk"
+                               class="px-2.5 py-2 rounded-xl bg-[#fff2ea] hover:bg-[#ffe6d8] border border-[#ead8ce] text-xs font-bold text-[#b85f45] text-center transition-all flex flex-col items-center justify-center shadow-xs">
+                                <span>🌐 Universel</span>
+                                <span class="text-[10px] opacity-75 font-normal">(76 Mo · Tous téléphones)</span>
+                            </a>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-[#6e554d] px-1 mb-1.5">
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81-armeabi-v7a.apk" class="hover:underline text-[#b85f45]">Ancien 32-bit (v7a · 35 Mo)</a>
+                            <span>•</span>
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81-x86_64.apk" class="hover:underline text-[#b85f45]">Émulateur PC (x86_64)</a>
+                        </div>
+                        <div class="text-center pt-1 border-t border-[#f0e2d9]">
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81.aab" class="text-[11px] font-semibold text-[#8c6b61] hover:text-[#b85f45] hover:underline">📦 Google Play Bundle (.aab · 116 Mo) ↗</a>
+                        </div>
                     </div>
+                    <p class="text-[10px] text-[#8c6b61] mt-2 pt-2 border-t border-[#f0e2d9] leading-tight">
+                        🛡️ Si Play Protect bloque : appuyez sur <em>« Plus de détails »</em> puis <em>« Installer quand même »</em>.
+                    </p>
                 </div>
 
                 <!-- Carte Formats Windows -->
@@ -1002,14 +1022,21 @@
                         <div class="flex items-center gap-2 mb-1.5">
                             <span class="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                 </svg>
                             </span>
-                            <span class="text-[11px] uppercase font-bold tracking-wider text-white">Android · Play Protect</span>
+                            <span class="text-[11px] uppercase font-bold tracking-wider text-white">Android · Formats</span>
                         </div>
-                        <p class="text-xs text-white/95 leading-relaxed">
-                            Si Play Protect bloque : cliquez sur <strong>« Plus de détails »</strong> puis <strong>« Installer quand même »</strong>.
-                        </p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81-arm64-v8a.apk"
+                               class="flex-1 px-2.5 py-1.5 rounded-xl bg-white/25 hover:bg-white/35 border border-white/20 text-xs font-bold text-white text-center transition-all">
+                                ⚡ ARM64 (36 Mo)
+                            </a>
+                            <a href="https://github.com/Ari586/ari-pro-releases/releases/download/v1.0.81/ARIPro-1.0.81.apk"
+                               class="flex-1 px-2.5 py-1.5 rounded-xl bg-white/25 hover:bg-white/35 border border-white/20 text-xs font-bold text-white text-center transition-all">
+                                🌐 Universel (76 Mo)
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Carte Windows CTA -->

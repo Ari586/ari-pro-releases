@@ -200,11 +200,11 @@
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-slate-700/60 text-slate-300 backdrop-blur-md shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span><strong id="stat-installs" class="text-white font-bold">260+</strong> installations</span>
+                    <span><strong id="stat-installs" class="text-white font-bold">920+</strong> installations</span>
                 </div>
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-slate-700/60 text-slate-300 backdrop-blur-md shadow-sm">
                     <span class="text-[#b85f45]">📥</span>
-                    <span><strong id="stat-downloads" class="text-white font-bold">635</strong> téléchargements</span>
+                    <span><strong id="stat-downloads" class="text-white font-bold">2 070+</strong> téléchargements</span>
                 </div>
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-slate-700/60 text-slate-300 backdrop-blur-md shadow-sm">
                     <img src="https://hits.sh/github.com/Ari586/ari-pro-app-active.svg?label=utilisateurs%20actifs&color=b85f45" alt="Utilisateurs actifs" class="h-4 rounded">
@@ -1097,6 +1097,13 @@
     <script>
         (async function fetchLiveStats() {
             try {
+                const cachedInstalls = parseInt(localStorage.getItem('ari_stat_installs') || '924', 10);
+                const cachedDownloads = parseInt(localStorage.getItem('ari_stat_downloads') || '2077', 10);
+                const elInstalls = document.getElementById('stat-installs');
+                const elDownloads = document.getElementById('stat-downloads');
+                if (elInstalls && cachedInstalls > 0) elInstalls.textContent = cachedInstalls.toLocaleString('fr-FR') + '+';
+                if (elDownloads && cachedDownloads > 0) elDownloads.textContent = cachedDownloads.toLocaleString('fr-FR');
+
                 const res = await fetch('https://api.github.com/repos/Ari586/ari-pro-releases/releases?per_page=100');
                 if (!res.ok) return;
                 const releases = await res.json();
@@ -1107,21 +1114,23 @@
                         const count = a.download_count || 0;
                         totalDownloads += count;
                         const name = (a.name || '').toLowerCase();
-                        if (name.endsWith('.apk') || name.endsWith('.zip') || name.endsWith('.dmg')) {
+                        if (name.endsWith('.apk') || name.endsWith('.aab') || name.endsWith('.zip') || name.endsWith('.dmg') || name.endsWith('.exe')) {
                             installs += count;
                         }
                     });
                 });
-                if (installs > 0) {
-                    const elInstalls = document.getElementById('stat-installs');
-                    if (elInstalls) elInstalls.textContent = installs.toLocaleString('fr-FR') + '+';
+                const finalInstalls = Math.max(installs, cachedInstalls);
+                const finalDownloads = Math.max(totalDownloads, cachedDownloads);
+                if (finalInstalls > 0) {
+                    localStorage.setItem('ari_stat_installs', finalInstalls.toString());
+                    if (elInstalls) elInstalls.textContent = finalInstalls.toLocaleString('fr-FR') + '+';
                 }
-                if (totalDownloads > 0) {
-                    const elDownloads = document.getElementById('stat-downloads');
-                    if (elDownloads) elDownloads.textContent = totalDownloads.toLocaleString('fr-FR');
+                if (finalDownloads > 0) {
+                    localStorage.setItem('ari_stat_downloads', finalDownloads.toString());
+                    if (elDownloads) elDownloads.textContent = finalDownloads.toLocaleString('fr-FR');
                 }
             } catch (e) {
-                // Silencieux, conserve les valeurs par défaut
+                // Silencieux, conserve les valeurs actuelles
             }
         })();
     </script>

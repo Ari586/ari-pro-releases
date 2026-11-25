@@ -3,7 +3,7 @@
 //| Receives ARI Pro orders and places them on this account.          |
 //+------------------------------------------------------------------+
 #property copyright "ARI Pro"
-#property version   "1.21"
+#property version   "1.31"
 #property description "ARI Pro bridge: orders from ARI Pro are placed on this account."
 #property description "Keep MetaTrader 5 open, this EA on one chart, Algo Trading on."
 
@@ -15,7 +15,17 @@ input int  InpDeviationPoints = 30;      // Max slippage (points)
 CTrade trade;
 const string ACCOUNT_FILE = "ari_account.txt";
 const string PROTECT_FILE = "ari_protect.txt";   // protection settings sent by ARI Pro (PROTECT)
-const string EA_VERSION = "1.21";   // read by ARI Pro (ari_account.txt, QUOTE)
+const string GUARD_FILE   = "ari_equity_guard.txt"; // autonomous daily/total equity kill switch
+const string EA_VERSION = "1.31";   // read by ARI Pro (ari_account.txt, QUOTE)
+
+bool   guard_loaded          = false;
+bool   guard_on              = false;
+bool   guard_close_on_breach = true;
+bool   guard_tripped         = false;
+double guard_min_equity      = 0.0;
+double guard_max_daily_loss  = 0.0;
+double guard_day_start_eq    = 0.0;
+int    guard_day_ymd         = 0;
 
 //--- position protection (Break-Even then trailing stop), like RiskShieldBot.
 //--- Only positions opened by ARI Pro (magic InpMagic). Pips: point x 10 at 3 or 5 digits, else 1 point.
@@ -113,6 +123,7 @@ string Clean(string s)
 //--- account ---------------------------------------------------------
 void WriteAccount()
   {
+   CheckEquityGuard();
    string mode = "demo";
    long m = AccountInfoInteger(ACCOUNT_TRADE_MODE);
    if(m == ACCOUNT_TRADE_MODE_REAL)
@@ -132,21 +143,32 @@ void WriteAccount()
      }
    bool allowed = TerminalInfoInteger(TERMINAL_TRADE_ALLOWED) != 0 && MQLInfoInteger(MQL_TRADE_ALLOWED) != 0
                   && AccountInfoInteger(ACCOUNT_TRADE_EXPERT) != 0;
+   bool accAllowed = AccountInfoInteger(ACCOUNT_TRADE_ALLOWED) != 0;
+   long mm = AccountInfoInteger(ACCOUNT_MARGIN_MODE);
+   string marginMode = (mm == ACCOUNT_MARGIN_MODE_RETAIL_HEDGING) ? "hedging" :
+                       ((mm == ACCOUNT_MARGIN_MODE_EXCHANGE) ? "exchange" : "netting");
+   double pingMs = (double)TerminalInfoInteger(TERMINAL_PING_LAST) / 1000.0;
    string text = "time=" + IntegerToString((long)TimeGMT()) + "\n"
+                 + "server_time=" + IntegerToString((long)TimeCurrent()) + "\n"
                  + "login=" + IntegerToString(AccountInfoInteger(ACCOUNT_LOGIN)) + "\n"
                  + "server=" + Clean(AccountInfoString(ACCOUNT_SERVER)) + "\n"
                  + "company=" + Clean(AccountInfoString(ACCOUNT_COMPANY)) + "\n"
                  + "currency=" + AccountInfoString(ACCOUNT_CURRENCY) + "\n"
                  + "balance=" + DoubleToString(AccountInfoDouble(ACCOUNT_BALANCE), 2) + "\n"
+                 + "credit=" + DoubleToString(AccountInfoDouble(ACCOUNT_CREDIT), 2) + "\n"
                  + "equity=" + DoubleToString(AccountInfoDouble(ACCOUNT_EQUITY), 2) + "\n"
                  + "margin=" + DoubleToString(AccountInfoDouble(ACCOUNT_MARGIN), 2) + "\n"
                  + "free_margin=" + DoubleToString(AccountInfoDouble(ACCOUNT_MARGIN_FREE), 2) + "\n"
                  + "leverage=" + IntegerToString(AccountInfoInteger(ACCOUNT_LEVERAGE)) + "\n"
+                 + "margin_mode=" + marginMode + "\n"
+                 + "ping_ms=" + DoubleToString(pingMs, 1) + "\n"
+                 + "investor_mode=" + (accAllowed ? "0" : "1") + "\n"
                  + "mode=" + mode + "\n"
                  + "connected=" + (TerminalInfoInteger(TERMINAL_CONNECTED) ? "1" : "0") + "\n"
-                 + "trade_allowed=" + (allowed ? "1" : "0") + "\n"
+                 + "trade_allowed=" + ((allowed && accAllowed) ? "1" : "0") + "\n"
                  + "positions=" + ids + "\n"
                  + "protect=" + ProtectSignature() + "\n"
+                 + "equity_guard=" + GuardSignature() + "\n"
                  + "ea_version=" + EA_VERSION + "\n";
    WriteText(ACCOUNT_FILE, text);
   }
@@ -205,7 +227,16 @@ void HandleCommand(const string file)
                if(action == "PROTECT")
                   res = DoProtect(keys, vals);
                else
-                  res = "ok=0\nmessage=Unknown command " + action + "\n";
+                  if(action == "DEAL_INFO")
+                     res = DoDealInfo(keys, vals);
+                  else
+                     if(action == "EQUITY_GUARD")
+                        res = DoEquityGuard(keys, vals);
+                     else
+                        if(action == "SYMBOLS")
+                           res = DoSymbols(keys, vals);
+                        else
+                           res = "ok=0\nmessage=Unknown command " + action + "\n";
    WriteText("ari_res_" + id + ".txt", "id=" + id + "\n" + res);
   }
 
@@ -273,8 +304,6 @@ string DoOrder(string &keys[], string &vals[])
       return("ok=0\nmessage=No broker price\n");
    if(pending)
      {
-      if(AccountInfoInteger(ACCOUNT_MARGIN_MODE) != ACCOUNT_MARGIN_MODE_RETAIL_HEDGING)
-         return("ok=0\nmessage=Pending orders require a hedging account to keep ARI separate from manual trades and other EAs\n");
       double ticksize = SymbolInfoDouble(sym, SYMBOL_TRADE_TICK_SIZE);
       if(ticksize <= 0 || planned <= 0 || MathAbs(planned / ticksize - MathRound(planned / ticksize)) > 1e-6)
          return("ok=0\nmessage=Entry is not on the broker tick grid\n");
@@ -288,6 +317,13 @@ string DoOrder(string &keys[], string &vals[])
    tp = tp > 0 ? NormalizeDouble(tp, digits) : 0.0;
    if(sl <= 0)
       return("ok=0\nmessage=No stop loss\n");
+   double refPx = pending ? planned : (side == "BUY" ? current.ask : current.bid);
+   long stopsLvl = MathMax(SymbolInfoInteger(sym, SYMBOL_TRADE_STOPS_LEVEL), SymbolInfoInteger(sym, SYMBOL_TRADE_FREEZE_LEVEL));
+   double minStopDist = stopsLvl * SymbolInfoDouble(sym, SYMBOL_POINT);
+   if(stopsLvl > 0 && MathAbs(refPx - sl) < minStopDist * 0.999)
+      return("ok=0\nmessage=SL inside broker minimum stops_level\n");
+   if(stopsLvl > 0 && tp > 0.0 && MathAbs(tp - refPx) < minStopDist * 0.999)
+      return("ok=0\nmessage=TP inside broker minimum stops_level\n");
    double step = SymbolInfoDouble(sym, SYMBOL_VOLUME_STEP);
    double vmin = SymbolInfoDouble(sym, SYMBOL_VOLUME_MIN);
    double vmax = SymbolInfoDouble(sym, SYMBOL_VOLUME_MAX);
@@ -319,18 +355,37 @@ string DoOrder(string &keys[], string &vals[])
       volume = vmax;
    volume = NormalizeDouble(volume, VolumeDigits(step));
    string comment = Get(keys, vals, "comment");
-   trade.SetTypeFillingBySymbol(sym);
+   string expRaw = Get(keys, vals, "expiry");
+   ENUM_ORDER_TYPE_TIME timeType = ORDER_TIME_GTC;
+   datetime expTime = 0;
+   if(expRaw == "DAY")
+      timeType = ORDER_TIME_DAY;
+   else if(expRaw != "" && StringToInteger(expRaw) > (long)TimeCurrent())
+     {
+      timeType = ORDER_TIME_SPECIFIED;
+      expTime = (datetime)StringToInteger(expRaw);
+     }
    bool ok = false;
-   if(kind == "LIMIT")
-      ok = side == "BUY" ? trade.BuyLimit(volume, planned, sym, sl, tp, ORDER_TIME_GTC, 0, comment)
-                          : trade.SellLimit(volume, planned, sym, sl, tp, ORDER_TIME_GTC, 0, comment);
-   else if(kind == "STOP")
-      ok = side == "BUY" ? trade.BuyStop(volume, planned, sym, sl, tp, ORDER_TIME_GTC, 0, comment)
-                          : trade.SellStop(volume, planned, sym, sl, tp, ORDER_TIME_GTC, 0, comment);
-   else
-      ok = side == "BUY" ? trade.Buy(volume, sym, 0.0, sl, tp, comment)
-                          : trade.Sell(volume, sym, 0.0, sl, tp, comment);
-   uint rc = trade.ResultRetcode();
+   uint rc = 0;
+   for(int attempt = 0; attempt < 2; attempt++)
+     {
+      trade.SetTypeFillingBySymbol(sym);
+      if(kind == "LIMIT")
+         ok = side == "BUY" ? trade.BuyLimit(volume, planned, sym, sl, tp, timeType, expTime, comment)
+                             : trade.SellLimit(volume, planned, sym, sl, tp, timeType, expTime, comment);
+      else if(kind == "STOP")
+         ok = side == "BUY" ? trade.BuyStop(volume, planned, sym, sl, tp, timeType, expTime, comment)
+                             : trade.SellStop(volume, planned, sym, sl, tp, timeType, expTime, comment);
+      else
+         ok = side == "BUY" ? trade.Buy(volume, sym, 0.0, sl, tp, comment)
+                             : trade.Sell(volume, sym, 0.0, sl, tp, comment);
+      rc = trade.ResultRetcode();
+      if(ok && (rc == TRADE_RETCODE_DONE || rc == TRADE_RETCODE_PLACED || rc == TRADE_RETCODE_DONE_PARTIAL))
+         break;
+      if(pending || (rc != TRADE_RETCODE_REQUOTE && rc != TRADE_RETCODE_PRICE_CHANGED))
+         break;
+      SymbolInfoTick(sym, current);
+     }
    if(!ok || (rc != TRADE_RETCODE_DONE && rc != TRADE_RETCODE_PLACED && rc != TRADE_RETCODE_DONE_PARTIAL))
       return(Failure("Order rejected"));
    ulong position = trade.ResultOrder();   // MT5: position id = ticket of the opening order
@@ -442,6 +497,9 @@ string DoQuote(string &keys[], string &vals[])
    double step = SymbolInfoDouble(sym, SYMBOL_VOLUME_STEP);
    double spread = tick.ask - tick.bid;
    long points = point > 0 ? (long)MathRound(spread / point) : 0;
+   long tmode = SymbolInfoInteger(sym, SYMBOL_TRADE_MODE);
+   string tmodeStr = (tmode == SYMBOL_TRADE_MODE_FULL) ? "full" :
+                     ((tmode == SYMBOL_TRADE_MODE_CLOSEONLY) ? "closeonly" : "disabled");
    string out = "ok=1\nsymbol=" + sym
                 + "\nbid=" + DoubleToString(tick.bid, digits)
                 + "\nask=" + DoubleToString(tick.ask, digits)
@@ -456,6 +514,13 @@ string DoQuote(string &keys[], string &vals[])
                 + "\nvolume_step=" + DoubleToString(step, 8)
                 + "\nvolume_max=" + DoubleToString(SymbolInfoDouble(sym, SYMBOL_VOLUME_MAX), 8)
                 + "\nstops_level=" + IntegerToString(SymbolInfoInteger(sym, SYMBOL_TRADE_STOPS_LEVEL))
+                + "\nfreeze_level=" + IntegerToString(SymbolInfoInteger(sym, SYMBOL_TRADE_FREEZE_LEVEL))
+                + "\nswap_long=" + DoubleToString(SymbolInfoDouble(sym, SYMBOL_SWAP_LONG), 4)
+                + "\nswap_short=" + DoubleToString(SymbolInfoDouble(sym, SYMBOL_SWAP_SHORT), 4)
+                + "\nswap_mode=" + IntegerToString(SymbolInfoInteger(sym, SYMBOL_SWAP_MODE))
+                + "\nswap_rollover3days=" + IntegerToString(SymbolInfoInteger(sym, SYMBOL_SWAP_ROLLOVER3DAYS))
+                + "\ntrade_mode=" + tmodeStr
+                + "\nfilling_modes=" + IntegerToString(SymbolInfoInteger(sym, SYMBOL_FILLING_MODE))
                 + "\ncurrency=" + AccountInfoString(ACCOUNT_CURRENCY)
                 + "\nprofit_currency=" + SymbolInfoString(sym, SYMBOL_CURRENCY_PROFIT)
                 + "\nea_version=" + EA_VERSION + "\n";
@@ -482,6 +547,24 @@ string DoQuote(string &keys[], string &vals[])
    return(out);
   }
 
+//--- SYMBOLS: visible & tradable MarketWatch symbols for auto-mapping --
+string DoSymbols(string &keys[], string &vals[])
+  {
+   int total = SymbolsTotal(true);
+   if(total <= 0) total = SymbolsTotal(false);
+   string list = "";
+   int count = 0;
+   for(int i = 0; i < total && count < 250; i++)
+     {
+      string s = SymbolName(i, SymbolsTotal(true) > 0);
+      if(s == "") continue;
+      if(list != "") list += ",";
+      list += Clean(s);
+      count++;
+     }
+   return("ok=1\ncount=" + IntegerToString(count) + "\nsymbols=" + list + "\n");
+  }
+
 //--- MODIFY: update stop loss / take profit (e.g. Break-Even) ---
 string DoModify(string &keys[], string &vals[])
   {
@@ -501,6 +584,18 @@ string DoModify(string &keys[], string &vals[])
       double cur_tp = PositionGetDouble(POSITION_TP);
       double set_sl = sl > 0 ? NormalizeDouble(sl, digits) : cur_sl;
       double set_tp = tp > 0 ? NormalizeDouble(tp, digits) : cur_tp;
+      MqlTick tick;
+      if(SymbolInfoTick(sym, tick))
+        {
+         long lvl = MathMax(SymbolInfoInteger(sym, SYMBOL_TRADE_STOPS_LEVEL), SymbolInfoInteger(sym, SYMBOL_TRADE_FREEZE_LEVEL));
+         double minDist = lvl * SymbolInfoDouble(sym, SYMBOL_POINT);
+         bool isBuy = PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY;
+         double refPx = isBuy ? tick.bid : tick.ask;
+         if(lvl > 0 && set_sl > 0 && MathAbs(refPx - set_sl) < minDist * 0.999)
+            return("ok=0\nmessage=SL inside broker stops/freeze level\n");
+         if(lvl > 0 && set_tp > 0 && MathAbs(set_tp - refPx) < minDist * 0.999)
+            return("ok=0\nmessage=TP inside broker stops/freeze level\n");
+        }
       if(!trade.PositionModify(t, set_sl, set_tp))
          return(Failure("Modify rejected"));
       return("ok=1\nposition=" + IntegerToString(want)
@@ -618,19 +713,195 @@ void Protect()
      }
   }
 
-string DoClose(string &keys[], string &vals[])
+//--- EQUITY GUARD: autonomous daily & total equity kill switch --------
+int CurrentYmdUtc()
+  {
+   MqlDateTime dt;
+   TimeToStruct(TimeGMT(), dt);
+   return(dt.year * 10000 + dt.mon * 100 + dt.day);
+  }
+
+string GuardSignature()
+  {
+   return(IntegerToString(guard_on ? 1 : 0) + ","
+          + DoubleToString(guard_min_equity, 2) + ","
+          + DoubleToString(guard_max_daily_loss, 2) + ","
+          + IntegerToString(guard_tripped ? 1 : 0));
+  }
+
+void ApplyEquityGuard(string &keys[], string &vals[])
+  {
+   guard_on = StringToInteger(Get(keys, vals, "enabled")) != 0;
+   guard_min_equity = MathMax(0.0, StringToDouble(Get(keys, vals, "min_equity")));
+   guard_max_daily_loss = MathMax(0.0, StringToDouble(Get(keys, vals, "max_daily_loss")));
+   string cob = Get(keys, vals, "close_on_breach");
+   guard_close_on_breach = (cob == "" || StringToInteger(cob) != 0);
+   if(StringToInteger(Get(keys, vals, "reset")) != 0)
+     {
+      guard_tripped = false;
+      guard_day_ymd = CurrentYmdUtc();
+      guard_day_start_eq = MathMax(AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY));
+     }
+  }
+
+void LoadEquityGuard()
+  {
+   guard_loaded = true;
+   string keys[], vals[];
+   if(ReadKeyValues(GUARD_FILE, keys, vals))
+      ApplyEquityGuard(keys, vals);
+  }
+
+void CloseAllAriByGuard()
+  {
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+     {
+      ulong t = PositionGetTicket(i);
+      if(t == 0 || PositionGetInteger(POSITION_MAGIC) != InpMagic)
+         continue;
+      trade.PositionClose(t);
+     }
+   for(int i = OrdersTotal() - 1; i >= 0; i--)
+     {
+      ulong ot = OrderGetTicket(i);
+      if(ot == 0 || OrderGetInteger(ORDER_MAGIC) != InpMagic)
+         continue;
+      trade.OrderDelete(ot);
+     }
+  }
+
+void CheckEquityGuard()
+  {
+   if(!guard_loaded)
+      LoadEquityGuard();
+   int ymd = CurrentYmdUtc();
+   if(ymd != guard_day_ymd)
+     {
+      guard_day_ymd = ymd;
+      guard_day_start_eq = MathMax(AccountInfoDouble(ACCOUNT_BALANCE), AccountInfoDouble(ACCOUNT_EQUITY));
+      guard_tripped = false;
+     }
+   if(!guard_on || guard_tripped)
+      return;
+   double eq = AccountInfoDouble(ACCOUNT_EQUITY);
+   if(eq <= 0.0)
+      return;
+   bool breachMin = (guard_min_equity > 0.0 && eq <= guard_min_equity);
+   bool breachDaily = (guard_max_daily_loss > 0.0 && guard_day_start_eq > 0.0
+                       && (guard_day_start_eq - eq) >= guard_max_daily_loss);
+   if(breachMin || breachDaily)
+     {
+      guard_tripped = true;
+      if(guard_close_on_breach)
+         CloseAllAriByGuard();
+     }
+  }
+
+string DoEquityGuard(string &keys[], string &vals[])
+  {
+   ApplyEquityGuard(keys, vals);
+   guard_loaded = true;
+   string text = "enabled=" + IntegerToString(guard_on ? 1 : 0) + "\n"
+                 + "min_equity=" + DoubleToString(guard_min_equity, 2) + "\n"
+                 + "max_daily_loss=" + DoubleToString(guard_max_daily_loss, 2) + "\n"
+                 + "close_on_breach=" + IntegerToString(guard_close_on_breach ? 1 : 0) + "\n";
+   if(!WriteText(GUARD_FILE, text))
+      return("ok=0\nmessage=Cannot save " + GUARD_FILE + "\n");
+   CheckEquityGuard();
+   return("ok=1\nequity_guard=" + GuardSignature() + "\n" + text);
+  }
+
+//--- DEAL_INFO: exact closed exit price, commission and swap ------------
+string DealSummaryForPosition(long want)
+  {
+   if(want <= 0 || !HistorySelectByPosition((ulong)want))
+      return("");
+   double profit = 0.0, commission = 0.0, swap = 0.0, outVol = 0.0, outAmt = 0.0;
+   for(int i = 0; i < HistoryDealsTotal(); i++)
+     {
+      ulong deal = HistoryDealGetTicket(i);
+      if(deal == 0)
+         continue;
+      profit += HistoryDealGetDouble(deal, DEAL_PROFIT);
+      commission += HistoryDealGetDouble(deal, DEAL_COMMISSION);
+      swap += HistoryDealGetDouble(deal, DEAL_SWAP);
+      long et = HistoryDealGetInteger(deal, DEAL_ENTRY);
+      if(et == DEAL_ENTRY_OUT || et == DEAL_ENTRY_OUT_BY || et == DEAL_ENTRY_INOUT)
+        {
+         double v = HistoryDealGetDouble(deal, DEAL_VOLUME);
+         outVol += v;
+         outAmt += v * HistoryDealGetDouble(deal, DEAL_PRICE);
+        }
+     }
+   if(outVol <= 0.0)
+      return("");
+   return("price=" + DoubleToString(outAmt / outVol, 10) + "\n"
+          + "volume=" + DoubleToString(outVol, 8) + "\n"
+          + "profit=" + DoubleToString(profit, 2) + "\n"
+          + "commission=" + DoubleToString(commission, 2) + "\n"
+          + "swap=" + DoubleToString(swap, 2) + "\n");
+  }
+
+string DoDealInfo(string &keys[], string &vals[])
   {
    long want = StringToInteger(Get(keys, vals, "position"));
    for(int i = PositionsTotal() - 1; i >= 0; i--)
      {
       ulong t = PositionGetTicket(i);
+      if(t != 0 && PositionGetInteger(POSITION_IDENTIFIER) == want)
+         return("ok=1\nclosed=0\n");
+     }
+   string summary = DealSummaryForPosition(want);
+   if(summary == "")
+      return("ok=0\nmessage=Deal history not found\n");
+   return("ok=1\nclosed=1\n" + summary);
+  }
+
+string DoClose(string &keys[], string &vals[])
+  {
+   long want = StringToInteger(Get(keys, vals, "position"));
+   double wantVol = StringToDouble(Get(keys, vals, "volume"));
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+     {
+      ulong t = PositionGetTicket(i);
       if(t == 0 || PositionGetInteger(POSITION_IDENTIFIER) != want)
          continue;
-      int digits = (int)SymbolInfoInteger(PositionGetString(POSITION_SYMBOL), SYMBOL_DIGITS);
+      string sym = PositionGetString(POSITION_SYMBOL);
+      int digits = (int)SymbolInfoInteger(sym, SYMBOL_DIGITS);
+      double curVol = PositionGetDouble(POSITION_VOLUME);
+      double vmin = SymbolInfoDouble(sym, SYMBOL_VOLUME_MIN);
+      double vstep = SymbolInfoDouble(sym, SYMBOL_VOLUME_STEP);
+      bool doPartial = false;
+      double closeVol = curVol;
+      if(wantVol > 0.0 && wantVol < curVol)
+        {
+         double norm = (vstep > 0.0) ? MathFloor(wantVol / vstep + 1e-9) * vstep : wantVol;
+         norm = NormalizeDouble(norm, 8);
+         if(norm >= vmin && (curVol - norm) >= vmin - 1e-8)
+           {
+            doPartial = true;
+            closeVol = norm;
+           }
+        }
+      if(doPartial)
+        {
+         if(!trade.PositionClosePartial(t, closeVol))
+            return(Failure("Partial close rejected"));
+         double rem = MathMax(0.0, curVol - closeVol);
+         return("ok=1\npartial=1\nprice=" + DoubleToString(trade.ResultPrice(), digits)
+                + "\nvolume=" + DoubleToString(closeVol, 8)
+                + "\nremaining=" + DoubleToString(rem, 8) + "\n");
+        }
       if(!trade.PositionClose(t))
          return(Failure("Close rejected"));
-      return("ok=1\nprice=" + DoubleToString(trade.ResultPrice(), digits) + "\n");
+      string dealExtra = DealSummaryForPosition(want);
+      string out = "ok=1\npartial=0\nprice=" + DoubleToString(trade.ResultPrice(), digits)
+                   + "\nvolume=" + DoubleToString(curVol, 8) + "\nremaining=0\n";
+      if(dealExtra != "")
+         out += dealExtra;
+      return(out);
      }
-   return("ok=1\nalready_closed=1\n");
+   string extra = DealSummaryForPosition(want);
+   return("ok=1\nalready_closed=1\n" + extra);
   }
 //+------------------------------------------------------------------+

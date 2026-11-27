@@ -3,7 +3,7 @@
 //| Receives ARI Pro orders and places them on this account.          |
 //+------------------------------------------------------------------+
 #property copyright "ARI Pro"
-#property version   "1.31"
+#property version   "1.32"
 #property description "ARI Pro bridge: orders from ARI Pro are placed on this account."
 #property description "Keep MetaTrader 5 open, this EA on one chart, Algo Trading on."
 
@@ -16,7 +16,7 @@ CTrade trade;
 const string ACCOUNT_FILE = "ari_account.txt";
 const string PROTECT_FILE = "ari_protect.txt";   // protection settings sent by ARI Pro (PROTECT)
 const string GUARD_FILE   = "ari_equity_guard.txt"; // autonomous daily/total equity kill switch
-const string EA_VERSION = "1.31";   // read by ARI Pro (ari_account.txt, QUOTE)
+const string EA_VERSION = "1.32";   // read by ARI Pro (ari_account.txt, QUOTE)
 
 bool   guard_loaded          = false;
 bool   guard_on              = false;
@@ -229,6 +229,9 @@ void HandleCommand(const string file)
                else
                   if(action == "DEAL_INFO")
                      res = DoDealInfo(keys, vals);
+                  else
+                  if(action == "DEALS")
+                     res = DoDeals(keys, vals);
                   else
                      if(action == "EQUITY_GUARD")
                         res = DoEquityGuard(keys, vals);
@@ -504,6 +507,7 @@ string DoQuote(string &keys[], string &vals[])
                 + "\nbid=" + DoubleToString(tick.bid, digits)
                 + "\nask=" + DoubleToString(tick.ask, digits)
                 + "\nspread=" + DoubleToString(spread, digits)
+                + "\ntick_age_ms=" + IntegerToString((long)TimeTradeServer() * 1000 - tick.time_msc)
                 + "\nspread_points=" + IntegerToString(points)
                 + "\ndigits=" + IntegerToString(digits)
                 + "\npoint=" + DoubleToString(point, 10)
@@ -855,6 +859,53 @@ string DoDealInfo(string &keys[], string &vals[])
    if(summary == "")
       return("ok=0\nmessage=Deal history not found\n");
    return("ok=1\nclosed=1\n" + summary);
+  }
+
+//--- DEALS: positions closed since `since` (UTC seconds), even closed from the phone or the terminal ---
+string DoDeals(string &keys[], string &vals[])
+  {
+   long offset = (long)(TimeTradeServer() - TimeGMT());   // server time - UTC
+   long since = StringToInteger(Get(keys, vals, "since"));
+   if(since <= 0)
+      since = (long)TimeGMT() - 7 * 86400;
+   if(!HistorySelect((datetime)(since + offset), TimeTradeServer() + 86400))
+      return("ok=0\nmessage=History unavailable\n");
+   int total = HistoryDealsTotal();
+   string out = "";
+   int n = 0;
+   for(int i = total - 1; i >= 0 && n < 100; i--)
+     {
+      ulong deal = HistoryDealGetTicket(i);
+      if(deal == 0)
+         continue;
+      long et = HistoryDealGetInteger(deal, DEAL_ENTRY);
+      if(et != DEAL_ENTRY_OUT && et != DEAL_ENTRY_OUT_BY)
+         continue;
+      long pos = HistoryDealGetInteger(deal, DEAL_POSITION_ID);
+      double openPx = 0.0;
+      for(int j = 0; j < total; j++)   // entry price: the IN deal of the same position
+        {
+         ulong d2 = HistoryDealGetTicket(j);
+         if(d2 != 0 && HistoryDealGetInteger(d2, DEAL_POSITION_ID) == pos && HistoryDealGetInteger(d2, DEAL_ENTRY) == DEAL_ENTRY_IN)
+           {
+            openPx = HistoryDealGetDouble(d2, DEAL_PRICE);
+            break;
+           }
+        }
+      string p = "deal_" + IntegerToString(n) + "_";
+      out += p + "position=" + IntegerToString(pos) + "\n"
+             + p + "symbol=" + HistoryDealGetString(deal, DEAL_SYMBOL) + "\n"
+             + p + "side=" + (HistoryDealGetInteger(deal, DEAL_TYPE) == DEAL_TYPE_SELL ? "BUY" : "SELL") + "\n"
+             + p + "volume=" + DoubleToString(HistoryDealGetDouble(deal, DEAL_VOLUME), 8) + "\n"
+             + p + "open=" + DoubleToString(openPx, 10) + "\n"
+             + p + "price=" + DoubleToString(HistoryDealGetDouble(deal, DEAL_PRICE), 10) + "\n"
+             + p + "profit=" + DoubleToString(HistoryDealGetDouble(deal, DEAL_PROFIT), 2) + "\n"
+             + p + "commission=" + DoubleToString(HistoryDealGetDouble(deal, DEAL_COMMISSION), 2) + "\n"
+             + p + "swap=" + DoubleToString(HistoryDealGetDouble(deal, DEAL_SWAP), 2) + "\n"
+             + p + "time=" + IntegerToString((long)HistoryDealGetInteger(deal, DEAL_TIME) - offset) + "\n";
+      n++;
+     }
+   return("ok=1\ncount=" + IntegerToString(n) + "\n" + out);
   }
 
 string DoClose(string &keys[], string &vals[])
